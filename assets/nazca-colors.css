@@ -1,0 +1,206 @@
+/* ================================================================
+   Nazca Design System — Colors & Type
+   Derived from HeroUI Native (Apache 2.0) — Tailwind v4 / Uniwind.
+   Values reduced to OKLCH tokens + semantic text styles.
+   ================================================================ */
+
+/* ----------  Web font (Inter — local variable font files, opsz + weight axes) ---------- */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  font-variation-settings: 'opsz' 14;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-Italic-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  font-variation-settings: 'opsz' 14;
+}
+/* Display face — same family but with optical size tuned for large headings.
+   Use `font-family: 'Inter Display'` (or the `.nz-display` / `.nz-h1` classes) for 28pt+ text. */
+@font-face {
+  font-family: 'Inter Display';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  font-variation-settings: 'opsz' 28;
+}
+
+:root {
+  /* ---------- Primitives (unchanged light/dark) ---------- */
+  --nz-white:   oklch(100% 0 0);
+  --nz-black:   oklch(0%   0 0);
+  --nz-snow:    oklch(99.11% 0 0);
+  --nz-eclipse: oklch(21.03% 0.0059 285.89);
+
+  /* ---------- Light theme (default) ---------- */
+  --nz-background: oklch(97.02% 0 0);
+  --nz-fg:         var(--nz-eclipse);
+  --nz-fg-muted:   oklch(55.17% 0.0138 285.94);
+  --nz-fg-subtle:  color-mix(in oklab, var(--nz-fg) 55%, transparent);
+
+  --nz-surface:              var(--nz-white);
+  --nz-surface-secondary:    oklch(95.24% 0.0013 286.37);
+  --nz-surface-tertiary:     oklch(93.73% 0.0013 286.37);
+  --nz-overlay:              var(--nz-white);
+  --nz-backdrop:             oklch(0% 0 0 / 20%);
+
+  --nz-accent:            oklch(68.5% 0.186 45.3);  /* Nazca orange — rgb(255,120,23) */
+  --nz-accent-foreground: var(--nz-snow);
+  --nz-accent-soft:       color-mix(in oklab, var(--nz-accent) 15%, transparent);
+
+  --nz-default:            oklch(94% 0.001 286.375);
+  --nz-default-foreground: var(--nz-eclipse);
+
+  --nz-success: oklch(70% 0.17 158);       /* cool emerald — strong separation from warm accent/warning */
+  --nz-success-foreground: var(--nz-eclipse);
+  --nz-warning: oklch(78% 0.165 70);        /* deep amber — adjacent to accent but clearly warmer/darker */
+  --nz-warning-foreground: var(--nz-eclipse);
+  --nz-danger:  oklch(56% 0.22 12);         /* crimson — pulled toward red, away from orange */
+  --nz-danger-foreground: var(--nz-snow);
+
+  --nz-border:    oklch(90% 0.004 286.32);
+  --nz-separator: oklch(74% 0.004 286.32);
+  --nz-focus:     var(--nz-accent);
+  --nz-link:      var(--nz-fg);
+
+  /* ---------- Form fields ---------- */
+  --nz-field-bg:          var(--nz-white);
+  --nz-field-fg:          var(--nz-eclipse);
+  --nz-field-placeholder: var(--nz-fg-muted);
+  --nz-field-border:      transparent;
+
+  /* ---------- Radius scale (base 8px) ---------- */
+  --nz-radius:     0.5rem;                          /* 8px */
+  --nz-radius-xs:  calc(var(--nz-radius) * 0.25);   /* 2px */
+  --nz-radius-sm:  calc(var(--nz-radius) * 0.5);    /* 4px */
+  --nz-radius-md:  calc(var(--nz-radius) * 0.75);   /* 6px */
+  --nz-radius-lg:  var(--nz-radius);                /* 8px */
+  --nz-radius-xl:  calc(var(--nz-radius) * 1.5);    /* 12px */
+  --nz-radius-2xl: calc(var(--nz-radius) * 2);      /* 16px */
+  --nz-radius-3xl: calc(var(--nz-radius) * 3);      /* 24px */
+  --nz-radius-4xl: calc(var(--nz-radius) * 4);      /* 32px */
+  --nz-radius-field: var(--nz-radius-xl);
+  --nz-radius-pill:  9999px;
+
+  /* ---------- Spacing (4px grid) ---------- */
+  --nz-space-1: 4px;  --nz-space-2: 8px;  --nz-space-3: 12px;
+  --nz-space-4: 16px; --nz-space-5: 20px; --nz-space-6: 24px;
+  --nz-space-8: 32px; --nz-space-10: 40px; --nz-space-12: 48px;
+  --nz-space-16: 64px;
+
+  /* ---------- Shadows ---------- */
+  --nz-shadow-surface:
+    0 2px 4px 0 rgba(0,0,0,.04),
+    0 1px 2px 0 rgba(0,0,0,.06),
+    0 0 1px 0 rgba(0,0,0,.06);
+  --nz-shadow-overlay:
+    0 2px 8px 0 rgba(0,0,0,.02),
+    0 -6px 12px 0 rgba(0,0,0,.01),
+    0 14px 28px 0 rgba(0,0,0,.03);
+  --nz-shadow-field:
+    0 2px 4px 0 rgba(0,0,0,.04),
+    0 1px 2px 0 rgba(0,0,0,.06),
+    0 0 1px 0 rgba(0,0,0,.06);
+
+  /* ---------- Opacity ---------- */
+  --nz-opacity-disabled: 0.5;
+
+  /* ---------- Type tokens ---------- */
+  --nz-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --nz-font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --nz-font-normal:   400;
+  --nz-font-medium:   500;
+  --nz-font-semibold: 600;
+  --nz-font-bold:     700;
+
+  /* Scale (Tailwind-aligned) */
+  --nz-text-xs:   12px;  --nz-lh-xs: 16px;
+  --nz-text-sm:   14px;  --nz-lh-sm: 20px;
+  --nz-text-base: 16px;  --nz-lh-base: 24px;
+  --nz-text-lg:   18px;  --nz-lh-lg: 28px;
+  --nz-text-xl:   20px;  --nz-lh-xl: 28px;
+  --nz-text-2xl:  24px;  --nz-lh-2xl: 32px;
+  --nz-text-3xl:  30px;  --nz-lh-3xl: 36px;
+  --nz-text-4xl:  36px;  --nz-lh-4xl: 40px;
+  --nz-text-5xl:  48px;  --nz-lh-5xl: 52px;
+}
+
+/* ---------- Dark theme ---------- */
+:root[data-theme='dark'], .nz-dark {
+  --nz-background:        oklch(12% 0.005 285.823);
+  --nz-fg:                var(--nz-snow);
+  --nz-fg-muted:          oklch(70.5% 0.015 286.067);
+  --nz-surface:           oklch(21.03% 0.0059 285.89);
+  --nz-surface-secondary: oklch(25.7% 0.0037 286.14);
+  --nz-surface-tertiary:  oklch(27.21% 0.0024 247.91);
+  --nz-overlay:           oklch(21.03% 0.0059 285.89);
+
+  --nz-default:            oklch(27.4% 0.006 286.033);
+  --nz-default-foreground: var(--nz-snow);
+
+  --nz-warning: oklch(80% 0.15 74);
+  --nz-danger:  oklch(55% 0.20 12);
+
+  --nz-border:    oklch(28% 0.006 286.033);
+  --nz-separator: oklch(40% 0.006 286.033);
+
+  --nz-field-bg: oklch(21.03% 0.0059 285.89);
+
+  --nz-shadow-surface: 0 0 0 0 transparent inset;
+  --nz-shadow-overlay: 0 0 1px 0 rgba(255,255,255,.2) inset;
+  --nz-shadow-field:   0 0 0 0 transparent inset;
+}
+
+/* ================================================================
+   Semantic text styles  (h1 … small, code, link)
+   ================================================================ */
+.nz-display {
+  font-family: 'Inter Display', var(--nz-font-sans);
+  font-weight: var(--nz-font-bold);
+  font-size: var(--nz-text-5xl);
+  line-height: var(--nz-lh-5xl);
+  letter-spacing: -0.02em;
+  color: var(--nz-fg);
+}
+.nz-h1 { font: var(--nz-font-bold) var(--nz-text-4xl)/var(--nz-lh-4xl) 'Inter Display', var(--nz-font-sans);
+  letter-spacing: -0.02em; color: var(--nz-fg); }
+.nz-h2 { font: var(--nz-font-semibold) var(--nz-text-3xl)/var(--nz-lh-3xl) 'Inter Display', var(--nz-font-sans);
+  letter-spacing: -0.015em; color: var(--nz-fg); }
+.nz-h3 { font: var(--nz-font-semibold) var(--nz-text-2xl)/var(--nz-lh-2xl) var(--nz-font-sans);
+  letter-spacing: -0.01em; color: var(--nz-fg); }
+.nz-h4 { font: var(--nz-font-semibold) var(--nz-text-xl)/var(--nz-lh-xl) var(--nz-font-sans);
+  color: var(--nz-fg); }
+.nz-title { font: var(--nz-font-medium) var(--nz-text-lg)/var(--nz-lh-lg) var(--nz-font-sans);
+  color: var(--nz-fg); }
+.nz-body { font: var(--nz-font-normal) var(--nz-text-base)/var(--nz-lh-base) var(--nz-font-sans);
+  color: var(--nz-fg); }
+.nz-body-sm { font: var(--nz-font-normal) var(--nz-text-sm)/var(--nz-lh-sm) var(--nz-font-sans);
+  color: var(--nz-fg); }
+.nz-caption { font: var(--nz-font-medium) var(--nz-text-xs)/var(--nz-lh-xs) var(--nz-font-sans);
+  color: var(--nz-fg-muted); letter-spacing: 0.02em; }
+.nz-overline { font: var(--nz-font-medium) var(--nz-text-xs)/var(--nz-lh-xs) var(--nz-font-sans);
+  color: var(--nz-fg-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.nz-muted { color: var(--nz-fg-muted); }
+.nz-mono { font-family: var(--nz-font-mono); font-size: var(--nz-text-sm); }
+.nz-code {
+  font-family: var(--nz-font-mono); font-size: 0.92em;
+  background: var(--nz-default); color: var(--nz-fg);
+  padding: 0.1em 0.35em; border-radius: var(--nz-radius-sm);
+}
+.nz-link { color: var(--nz-link); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ================================================================
+   Card preview scaffolding — used by every preview/*.html
+   ================================================================ */
+html, body { margin: 0; padding: 0; background: var(--nz-background);
+  font-family: var(--nz-font-sans); color: var(--nz-fg);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { padding: 20px; }

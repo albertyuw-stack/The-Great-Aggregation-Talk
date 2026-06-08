@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大聚合時代 — The Great Aggregation</title>
+<!-- standalone-bundle: image-slot srcs are injected into shadow DOM at runtime, so lift them for the bundler -->
+<meta name="ext-resource-dependency" content="images/walle.webp" data-resource-id="walle" />
+<meta name="ext-resource-dependency" content="images/elysium.webp" data-resource-id="elysium" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  font-variation-settings:'opsz' 20;
+}
+/* ============ TOKENS ============ */
+:root{
+  /* Nazca palette */
+  --bg:           oklch(97.5% 0 0);
+  --bg-warm:      oklch(98.5% 0.004 80);
+  --fg:           oklch(21.03% 0.0059 285.89);
+  --fg-muted:     oklch(48% 0.012 286);
+  --fg-subtle:    oklch(62% 0.01 286);
+  --surface:      oklch(100% 0 0);
+  --surface-2:    oklch(95.6% 0.0013 286);
+  --border:       oklch(89% 0.004 286);
+  --border-2:     oklch(82% 0.005 286);
+  --accent:       oklch(68.5% 0.186 45.3);
+  --accent-deep:  oklch(60% 0.2 40);
+  --accent-soft:  color-mix(in oklab, var(--accent) 12%, transparent);
+  --danger:       oklch(56% 0.22 12);
+  --success:      oklch(66% 0.16 158);
+  --info:         oklch(62% 0.13 245);
+
+  /* dark cinematic */
+  --d-bg:      oklch(15.5% 0.012 280);
+  --d-bg-2:    oklch(20% 0.014 280);
+  --d-fg:      oklch(97% 0 0);
+  --d-fg-muted:oklch(72% 0.012 286);
+  --d-border:  oklch(32% 0.012 285);
+  --d-surface: oklch(21% 0.012 282);
+
+  /* type scale (1920×1080) */
+  --t-mega:     132px;
+  --t-display:  88px;
+  --t-title:    68px;
+  --t-h1:       54px;
+  --t-h2:       42px;
+  --t-lead:     36px;
+  --t-body:     29px;
+  --t-small:    24px;
+  --t-eyebrow:  24px;
+
+  /* spacing */
+  --pad-x:    124px;
+  --pad-top:  96px;
+  --pad-bot:  92px;
+  --gap:      34px;
+
+  --font-sans:'Inter','Noto Sans TC',ui-sans-serif,system-ui,sans-serif;
+  --font-serif:'Noto Serif TC',Georgia,serif;
+  --font-mono:ui-monospace,'SF Mono',Menlo,monospace;
+  --ease: cubic-bezier(.22,.68,0,1);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:#0a0a0c;}
+body{font-family:var(--font-sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+deck-stage:not(:defined){visibility:hidden;}
+
+/* ============ SLIDE BASE ============ */
+section.slide{
+  width:100%;height:100%;
+  padding:var(--pad-top) var(--pad-x) var(--pad-bot);
+  display:flex;flex-direction:column;
+  background:var(--bg);color:var(--fg);
+  overflow:hidden;position:relative;
+  font-size:var(--t-body);line-height:1.5;
+  letter-spacing:.01em;
+}
+section.slide.warm{background:var(--bg-warm);}
+section.slide.dark{background:var(--d-bg);color:var(--d-fg);}
+section.slide.dark::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 82% -8%, color-mix(in oklab,var(--accent) 22%,transparent), transparent 52%);
+  opacity:.7;
+}
+section.slide.dark > *{position:relative;z-index:1;}
+section.slide.dark > .slide-no,section.slide.dark > .kicker-foot{position:absolute;z-index:2;}
+
+/* ============ SHARED TYPE ============ */
+.eyebrow{
+  font-size:var(--t-eyebrow);font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent);
+  display:flex;align-items:center;gap:16px;margin:0;
+}
+.eyebrow.muted{color:var(--fg-subtle);}
+.dark .eyebrow.muted{color:var(--d-fg-muted);}
+.eyebrow::before{content:"";width:46px;height:2px;background:currentColor;display:inline-block;border-radius:2px;}
+.eyebrow.no-rule::before{display:none;}
+
+h1.title{
+  font-family:var(--font-sans);font-weight:900;
+  font-size:var(--t-title);line-height:1.06;letter-spacing:-.02em;
+  margin:0;color:inherit;
+}
+.subtitle{font-size:var(--t-lead);font-weight:400;color:var(--fg-muted);margin:0;line-height:1.4;}
+.dark .subtitle{color:var(--d-fg-muted);}
+.lead{font-size:var(--t-lead);line-height:1.45;font-weight:400;}
+.muted{color:var(--fg-muted);}
+.dark .muted{color:var(--d-fg-muted);}
+.accent{color:var(--accent);}
+.en{font-family:var(--font-sans);font-style:normal;}
+.serif{font-family:var(--font-serif);}
+b,strong{font-weight:700;}
+
+.slide-no{
+  position:absolute;right:var(--pad-x);bottom:48px;
+  font-size:18px;letter-spacing:.18em;color:var(--fg-subtle);font-weight:500;z-index:2;
+}
+.dark .slide-no{color:var(--d-fg-muted);}
+.kicker-foot{position:absolute;left:var(--pad-x);bottom:48px;font-size:18px;letter-spacing:.16em;color:var(--fg-subtle);font-weight:600;z-index:2;}
+.dark .kicker-foot{color:var(--d-fg-muted);}
+
+/* ============ ENTRANCE ANIMATION ============ */
+.reveal{opacity:1;}
+@media (prefers-reduced-motion:no-preference){
+  section[data-deck-active] .reveal{animation:riseIn .82s var(--ease) both;animation-delay:var(--d,0s);}
+  section[data-deck-active] .fade{animation:fadeIn 1s ease both;animation-delay:var(--d,0s);}
+  section[data-deck-active] .scaleIn{animation:scaleIn .9s var(--ease) both;animation-delay:var(--d,0s);}
+}
+@keyframes riseIn{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:no-preference){
+  section[data-deck-active] .split90{animation:grow90 1.05s var(--ease) both;animation-delay:.2s;}
+  section[data-deck-active] .split10{animation:grow10 1.15s var(--ease) both;animation-delay:.35s;}
+}
+@keyframes grow90{from{width:0;}to{width:90%;}}
+@keyframes grow10{from{width:0;}to{width:10%;}}
+
+/* ============ HOVER CARD GRID ============ */
+.card-grid{display:grid;gap:22px;}
+.hcard{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--nz-radius-3xl,24px);padding:30px 32px;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease), background .5s var(--ease);
+  position:relative;overflow:hidden;cursor:default;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.hcard::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--accent);transform:scaleY(0);transform-origin:top;
+  transition:transform .5s var(--ease);
+}
+.hcard:hover{
+  transform:translateY(-8px);
+  border-color:transparent;
+  box-shadow:0 26px 50px -20px rgba(20,16,12,.28), 0 8px 18px -12px rgba(20,16,12,.18);
+}
+.hcard:hover::before{transform:scaleY(1);}
+.dark .hcard{background:var(--d-surface);border-color:var(--d-border);box-shadow:none;}
+.dark .hcard:hover{box-shadow:0 26px 60px -24px rgba(0,0,0,.7);border-color:var(--d-border);}
+.hcard .h-name{font-size:var(--t-h2);font-weight:800;letter-spacing:-.01em;margin:0 0 6px;}
+.hcard .h-tag{font-size:24px;font-weight:600;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;margin:0 0 14px;}
+.hcard .h-desc{font-size:var(--t-small);line-height:1.5;color:var(--fg-muted);margin:0;
+  max-height:0;opacity:0;overflow:hidden;transition:max-height .55s var(--ease), opacity .45s var(--ease), margin .5s var(--ease);}
+.hcard:hover .h-desc{max-height:320px;opacity:1;margin-top:4px;}
+.dark .hcard .h-desc{color:var(--d-fg-muted);}
+
+/* pill / chip */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;white-space:nowrap;
+  background:var(--surface-2);font-size:var(--t-small);font-weight:600;border:1px solid var(--border);}
+.dark .chip{background:var(--d-surface);border-color:var(--d-border);}
+
+/* ============ TITLE PORTRAIT PANEL ============ */
+.slide.dark .title-portrait{position:absolute;top:0;right:0;bottom:0;width:46%;z-index:0;overflow:hidden;}
+.title-portrait img{width:100%;height:100%;object-fit:cover;object-position:30% 28%;
+  filter:grayscale(.32) contrast(1.04) brightness(.94) sepia(.18) hue-rotate(-12deg);}
+.title-portrait::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg, var(--d-bg) 0%, color-mix(in oklab,var(--d-bg) 72%,transparent) 24%, transparent 56%),
+             linear-gradient(0deg, var(--d-bg) 2%, transparent 26%),
+             linear-gradient(180deg, var(--d-bg) 0%, transparent 18%);}
+.slide.dark .title-portrait .pcap{position:absolute;left:46px;bottom:48px;z-index:2;max-width:90%;}
+.title-portrait .pcap-name{font:700 25px/1.2 var(--font-sans);letter-spacing:.01em;color:var(--d-fg);}
+.title-portrait .pcap-role{font:500 19px/1.4 var(--font-sans);color:var(--d-fg-muted);margin-top:5px;white-space:nowrap;}
+.title-portrait .pcap-rule{width:38px;height:2px;background:var(--accent);border-radius:2px;margin-bottom:14px;}
+
+/* ============ AGENDA CARD ============ */
+.agenda-card{
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  padding:34px 32px 36px;transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.agenda-card:hover{transform:translateY(-10px);border-color:var(--accent);
+  box-shadow:0 30px 56px -22px rgba(20,16,12,.3);}
+.agenda-card .ag-no{font-size:64px;font-weight:900;letter-spacing:-.03em;color:var(--accent);line-height:1;
+  transition:transform .5s var(--ease);}
+.agenda-card:hover .ag-no{transform:scale(1.08) translateX(4px);}
+.agenda-card .ag-title{font-size:34px;font-weight:800;margin-top:26px;letter-spacing:-.01em;}
+.agenda-card .ag-en{font-size:24px;font-weight:600;color:var(--accent);letter-spacing:.03em;margin-top:8px;}
+.agenda-card .ag-desc{font-size:24px;line-height:1.5;color:var(--fg-muted);margin-top:20px;}
+
+/* ============ CATEGORY LABEL ============ */
+.cat-label{font-size:24px;font-weight:700;letter-spacing:.04em;color:var(--fg-muted);
+  display:flex;align-items:center;gap:14px;}
+.cat-label::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--accent);display:inline-block;}
+.dark .cat-label{color:var(--d-fg-muted);}
+
+/* ============ INTERACTIVE LINE CHART (slide 5) ============ */
+.uc-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+.uc-leg{display:inline-flex;align-items:center;gap:9px;padding:8px 15px;border-radius:999px;cursor:pointer;white-space:nowrap;
+  background:var(--d-surface);border:1px solid var(--d-border);color:var(--d-fg);
+  font:600 20px/1 var(--font-sans);transition:opacity .25s var(--ease),background .25s var(--ease);}
+.uc-leg:hover{background:oklch(26% 0.012 282);}
+.uc-leg.off{opacity:.4;}
+.uc-leg.off .uc-leg-tx{text-decoration:line-through;}
+.uc-dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none;}
+.uc-svg{width:100%;height:auto;display:block;overflow:visible;}
+.uc-line{transition:opacity .3s var(--ease),stroke-width .2s var(--ease);}
+.uc-dot-pt{transition:r .12s var(--ease);}
+.uc-axis{fill:#9aa0ab;font:500 17px var(--font-sans);}
+.uc-era{fill:#ff9a4d;font:700 18px var(--font-sans);letter-spacing:.04em;opacity:.85;}
+.uc-end{font:800 19px var(--font-sans);}
+.uc-tip{position:absolute;pointer-events:none;z-index:5;min-width:188px;
+  background:oklch(24% 0.012 282 / .97);border:1px solid var(--d-border);border-radius:14px;
+  padding:12px 14px;box-shadow:0 18px 40px -16px rgba(0,0,0,.7);transition:opacity .15s ease;
+  backdrop-filter:blur(8px);}
+.uc-tip-h{font:800 20px var(--font-sans);color:var(--d-fg);margin-bottom:8px;}
+.uc-tip-row{display:flex;align-items:center;gap:9px;padding:3px 0;}
+.uc-tip-l{font:500 18px var(--font-sans);color:var(--d-fg-muted);}
+.uc-tip-v{margin-left:auto;font:800 18px var(--font-sans);color:var(--d-fg);}
+
+/* ============ IMAGE SLOTS ============ */
+image-slot{display:block;background:var(--surface-2);}
+.dark image-slot{background:var(--d-surface);}
+
+/* ============ SECTION DIVIDER ============ */
+.divider-no{font-size:var(--t-mega);font-weight:900;letter-spacing:-.04em;line-height:.9;color:var(--accent);}
+.divider-title{font-size:var(--t-display);font-weight:900;letter-spacing:-.03em;line-height:1.02;margin:0;}
+.divider-en{font-size:var(--t-h2);font-weight:300;letter-spacing:.02em;margin:18px 0 0;}
+.dark .divider-en{color:var(--d-fg-muted);}
+.divider-list{display:flex;gap:14px;flex-wrap:wrap;margin-top:48px;}
+.divider-list .chip{font-weight:500;}
+.dark .divider-list .chip{background:transparent;border-color:var(--d-border);color:var(--d-fg-muted);}
+
+/* ============ BIG STAT ============ */
+.stat-num{font-size:clamp(120px,13vw,200px);font-weight:900;letter-spacing:-.05em;line-height:.86;font-family:var(--font-sans);}
+.stat-unit{font-size:.4em;font-weight:700;vertical-align:.15em;margin-left:6px;letter-spacing:-.02em;}
+
+/* ============ BAR CHART ============ */
+.bars{display:flex;align-items:flex-end;gap:30px;height:420px;}
+.barwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:18px;}
+.bartrack{width:100%;display:flex;align-items:flex-end;justify-content:center;flex:1;}
+.barfill{width:100%;border-radius:16px 16px 0 0;height:var(--h);position:relative;min-height:6px;}
+@media (prefers-reduced-motion:no-preference){
+  section[data-deck-active] .barfill{animation:growH 1.25s var(--ease) both;animation-delay:var(--d,.2s);}
+}
+@keyframes growH{from{height:0;}to{height:var(--h);}}
+.bar-cap{position:absolute;top:-58px;left:0;right:0;text-align:center;font-size:46px;font-weight:900;letter-spacing:-.02em;}
+.bar-label{font-size:25px;font-weight:600;text-align:center;line-height:1.3;}
+.bar-sub{font-size:24px;color:var(--fg-muted);text-align:center;}
+.dark .bar-sub{color:var(--d-fg-muted);}
+
+/* ============ FLIP CARD ============ */
+.flip-grid{display:grid;gap:20px;}
+.flip{perspective:1600px;height:100%;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s var(--ease);transform-style:preserve-3d;}
+.flip:hover .flip-inner,.flip.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:24px;padding:24px 28px;display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.flip-back{transform:rotateY(180deg);background:var(--d-bg-2);border-color:transparent;color:var(--d-fg);}
+.flip-name{font-size:32px;font-weight:800;letter-spacing:-.01em;margin:0;}
+.flip-top{display:flex;align-items:center;gap:14px;margin-bottom:2px;}
+.flip-logo{width:50px;height:50px;border-radius:13px;background:#fff;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.06);}
+.flip-logo img{width:32px;height:32px;object-fit:contain;display:block;}
+.tool-head{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:12px;}
+.tool-head .h-name{margin:0;font-size:29px;line-height:1.15;width:100%;}
+.tool-logo{width:50px;height:50px;border-radius:13px;background:#fff;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.06);}
+.tool-logo img{width:31px;height:31px;object-fit:contain;display:block;}
+.j-logo{width:60px;height:60px;border-radius:15px;background:#fff;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05);margin-bottom:22px;}
+.j-logo img{width:38px;height:38px;object-fit:contain;display:block;}
+.flip-role{font-size:18px;font-weight:600;color:var(--accent);letter-spacing:.03em;margin:8px 0 0;text-transform:uppercase;}
+.flip-blurb{font-size:21px;line-height:1.45;color:var(--fg-muted);margin:18px 0 0;}
+.flip-hint{margin-top:auto;font-size:17px;font-weight:600;color:var(--fg-subtle);display:flex;align-items:center;gap:8px;}
+.pc-row{display:flex;gap:10px;align-items:flex-start;font-size:18px;line-height:1.38;margin-top:9px;}
+.pc-row .ic{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:800;margin-top:1px;}
+.pc-row.pro .ic{background:color-mix(in oklab,var(--success) 28%,transparent);color:oklch(88% 0.15 158);}
+.pc-row.con .ic{background:color-mix(in oklab,var(--danger) 30%,transparent);color:oklch(85% 0.12 20);}
+.flip-label{font-size:16px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--d-fg-muted);margin:0 0 4px;}
+
+/* ============ NODE DIAGRAM ============ */
+.agg-core{width:300px;height:300px;border-radius:50%;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(circle at 50% 38%, var(--accent), var(--accent-deep));color:#fff;
+  box-shadow:0 30px 70px -28px color-mix(in oklab,var(--accent) 70%,transparent);}
+.agg-sat{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px 22px;
+  font-size:23px;font-weight:700;box-shadow:0 10px 28px -16px rgba(20,16,12,.3);}
+.dark .agg-sat{background:var(--d-surface);border-color:var(--d-border);}
+
+/* ============ SCENARIO SPLIT ============ */
+.scenario{border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;height:100%;
+  border:1px solid var(--d-border);background:var(--d-surface);transition:transform .55s var(--ease),box-shadow .55s var(--ease);}
+.scenario:hover{transform:translateY(-8px);box-shadow:0 36px 70px -30px rgba(0,0,0,.7);}
+.scenario .sc-body{padding:34px 38px 40px;display:flex;flex-direction:column;gap:14px;flex:1;}
+.scenario .sc-tag{font-size:19px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.scenario .sc-title{font-size:46px;font-weight:900;letter-spacing:-.02em;margin:0;}
+
+/* ============ QUOTE ============ */
+.bigquote{font-family:var(--font-serif);font-weight:600;font-size:72px;line-height:1.35;letter-spacing:.01em;margin:0;}
+.markq{font-family:var(--font-serif);font-size:200px;line-height:.1;color:var(--accent);opacity:.5;height:60px;display:block;}
+
+/* ============ NUMBERED LIST ROWS ============ */
+.row-item{display:grid;grid-template-columns:96px 1fr;gap:30px;align-items:start;padding:30px 0;border-top:1px solid var(--border);transition:padding-left .5s var(--ease);}
+.dark .row-item{border-color:var(--d-border);}
+.row-item:hover{padding-left:14px;}
+.row-item .r-no{font-size:46px;font-weight:900;color:var(--accent);letter-spacing:-.02em;line-height:1;}
+.row-item .r-h{font-size:34px;font-weight:800;letter-spacing:-.01em;margin:0;}
+.row-item .r-d{font-size:23px;color:var(--fg-muted);line-height:1.5;margin:8px 0 0;}
+.dark .row-item .r-d{color:var(--d-fg-muted);}
+.arrow-pill{display:inline-flex;align-items:center;gap:12px;font-weight:800;flex-wrap:nowrap;align-self:flex-start;}
+.arrow-pill > *{white-space:nowrap;flex:none;}
+.arrow-pill .ar{color:var(--accent);font-size:1.1em;}
+
+/* ============ DECK STAGE TRANSITION ============ */
+deck-stage::part(stage){background:#0a0a0c;}
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- 01 · TITLE -->
+  <section class="slide dark" data-label="Title">
+    <div class="title-portrait reveal fade" style="--d:.15s">
+      <img src="images/davinci.jpg" alt="Leonardo da Vinci">
+      <div class="pcap reveal" style="--d:.6s">
+        <div class="pcap-rule"></div>
+        <div class="pcap-name">Leonardo da Vinci</div>
+        <div class="pcap-role">文藝復興的通才原型 · The original polymath</div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1010px;">
+      <p class="eyebrow reveal" style="--d:.05s">The Great Aggregation · Keynote</p>
+      <h1 class="title reveal" style="--d:.12s;font-size:var(--t-display);margin-top:30px;letter-spacing:-.03em;">
+        大聚合時代</h1>
+      <p class="reveal" style="--d:.2s;font-size:var(--t-h2);font-weight:300;color:var(--d-fg-muted);margin:26px 0 0;line-height:1.3;">
+        從<b style="font-weight:700;color:var(--d-fg);">專才滅絕</b>到<span class="accent" style="font-weight:700;">「產品打造者」</span><span class="en muted" style="font-size:.7em;">Product Builder</span> 的興起</p>
+    </div>
+    <div class="reveal" style="--d:.34s;display:flex;align-items:center;gap:22px;border-top:1px solid var(--d-border);padding-top:34px;max-width:1010px;">
+      <image-slot id="speaker-avatar" style="width:84px;height:84px" shape="circle" placeholder="頭像"></image-slot>
+      <div>
+        <div style="font-size:24px;font-weight:700;">Albert Wang</div>
+        <div style="font-size:24px;color:var(--d-fg-muted);">Ai Product Builder · Jun 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · SPEAKER / 18 YEAR JOURNEY -->
+  <section class="slide" data-label="Speaker">
+    <p class="eyebrow reveal">18 Years in the Craft</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:22px;">18 年的 UX 實踐旅程</h1>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:54px;">
+      <div class="hcard reveal" style="--d:.12s;display:flex;flex-direction:column;">
+        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="h-tag">'09 — '14</div>
+        <div class="h-name" style="font-size:42px;">LinkedIn</div>
+        <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">資深產品設計師<br><span class="en muted">Senior PD</span></div>
+        <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">主導首頁、搜尋功能、使用者成長與聯絡人系統。</div>
+      </div>
+      <div class="hcard reveal" style="--d:.2s;display:flex;flex-direction:column;">
+        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=inkling.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="h-tag">'14 — '16</div>
+        <div class="h-name" style="font-size:42px;">Inkling</div>
+        <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">首席產品設計主導<br><span class="en muted">Principal PD Lead</span></div>
+        <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">多媒體互動電子書與核心 CMS 內容創作平台。</div>
+      </div>
+      <div class="hcard reveal" style="--d:.28s;display:flex;flex-direction:column;">
+        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=bloomreach.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="h-tag">'16 — '23</div>
+        <div class="h-name" style="font-size:42px;">Bloomreach</div>
+        <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">產品設計總監<br><span class="en muted">PD Director</span></div>
+        <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">跨國管理美、印、歐三地團隊；搜尋演算法與購物助理 Chatbot。</div>
+      </div>
+      <div class="hcard reveal" style="--d:.36s;display:flex;flex-direction:column;border-color:var(--accent);">
+        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=observe.ai&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="h-tag">'23 — '25</div>
+        <div class="h-name" style="font-size:42px;">Observe.AI</div>
+        <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">產品設計負責人<br><span class="en muted">Head of PD</span></div>
+        <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">領導美、印 9 人團隊；語音 AI、客服 Copilot 與自動化品管 Agent。</div>
+      </div>
+    </div>
+    <div class="slide-no">02</div>
+  </section>
+
+  <!-- 03 · AGENDA -->
+  <section class="slide warm" data-label="Agenda">
+    <p class="eyebrow reveal">Agenda · 本場導覽</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:22px;">四個單元，一條主線</h1>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:52px;align-items:stretch;">
+      <a class="agenda-card reveal" style="--d:.12s" data-go="3">
+        <div class="ag-no">01</div>
+        <div class="ag-title">就業市場的斷裂</div>
+        <div class="ag-en">The Employment Fracture</div>
+        <div class="ag-desc">專才滅絕、交接時代終結、PM 成為聚合核心。</div>
+      </a>
+      <a class="agenda-card reveal" style="--d:.2s" data-go="8">
+        <div class="ag-no">02</div>
+        <div class="ag-title">產品打造者框架</div>
+        <div class="ag-en">Product Builder Framework</div>
+        <div class="ag-desc">四大支柱：研究、洞察、氛圍設計、評估。</div>
+      </a>
+      <a class="agenda-card reveal" style="--d:.28s" data-go="16">
+        <div class="ag-no">03</div>
+        <div class="ag-title">角色轉型</div>
+        <div class="ag-en">Role Transformation</div>
+        <div class="ag-desc">專才如何升級為打造者，以及升級的硬傷。</div>
+      </a>
+      <a class="agenda-card reveal" style="--d:.36s" data-go="19">
+        <div class="ag-no">04</div>
+        <div class="ag-title">AI 末日啟示錄</div>
+        <div class="ag-en">AI Apocalyptics</div>
+        <div class="ag-desc">40% 失業斷崖、兩種劇本、與生存策略。</div>
+      </a>
+    </div>
+    <div class="slide-no">03</div>
+  </section>
+
+  <!-- 04 · UNIT 1 DIVIDER -->
+  <section class="slide dark" data-label="Unit 1" data-screen-label="Unit 1">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+      <div class="divider-no reveal">01</div>
+      <h1 class="divider-title reveal" style="--d:.1s;margin-top:18px;">就業市場的斷裂</h1>
+      <p class="divider-en reveal" style="--d:.18s">The Employment Fracture</p>
+      <div class="divider-list reveal" style="--d:.28s">
+        <span class="chip">專才滅絕事件</span>
+        <span class="chip">「交接」時代的終結</span>
+        <span class="chip">PM 作為聚合核心</span>
+        <span class="chip">AI 廢料時代降臨</span>
+      </div>
+    </div>
+    <div class="kicker-foot">第一單元 / UNIT 01</div>
+  </section>
+
+  <!-- 05 · 失業浪潮的殘酷分化 -->
+  <section class="slide dark" data-label="Unemployment" data-screen-label="Unemployment data">
+    <p class="eyebrow reveal">專才滅絕事件 · The Extinction Event</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:20px;">失業浪潮的殘酷分化</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1.62fr 1fr;gap:54px;margin-top:24px;align-items:center;">
+      <div class="reveal" style="--d:.15s;">
+        <div style="font-size:24px;font-weight:600;color:var(--d-fg-muted);margin-bottom:8px;">各技術職位失業率比較 <span style="color:var(--fg-subtle);">(2015 — 2025)</span></div>
+        <div id="unemp-chart" style="width:100%;"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:28px;">
+        <div class="reveal" style="--d:.3s">
+          <div class="stat-num accent" style="font-size:158px;">+300<span class="stat-unit">%</span></div>
+          <p class="muted" style="font-size:25px;margin:10px 0 0;line-height:1.45;">過去 3 年，設計師、UX 研究員、前端工程師的失業率<b style="color:var(--d-fg);font-weight:700;">飆升 300%</b>，攀升至約 8%。</p>
+        </div>
+        <p class="reveal" style="--d:.42s;font-size:25px;line-height:1.55;border-top:1px solid var(--d-border);padding-top:24px;">
+          PM 與後端依然穩固——因為他們手握底層<b>「系統邏輯」</b>與<b>「商業價值」</b>的鑰匙。</p>
+        <p class="reveal" style="--d:.5s;font-size:20px;color:var(--fg-subtle);margin:0;">滑過圖表查看各年數據，點按圖例可隱藏該職位。</p>
+      </div>
+    </div>
+    <div class="slide-no">05</div>
+  </section>
+
+  <!-- 06 · 交接時代的終結 -->
+  <section class="slide warm" data-label="Handoff Ends">
+    <p class="eyebrow reveal">The End of Handoff</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:20px;">「交接 / Handoff」時代的終結</h1>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:54px;">
+      <div class="reveal" style="--d:.16s;display:flex;align-items:stretch;gap:0;">
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:34px 38px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.06));">
+          <div style="font-size:21px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase;">思考</div>
+          <div style="font-size:38px;font-weight:800;margin-top:8px;">研究 · 設計</div>
+        </div>
+        <div style="flex:1.1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px;">
+          <div style="font-size:23px;font-weight:700;color:var(--fg-muted);margin-bottom:14px;">摩擦力 (Friction)</div>
+          <div style="width:100%;height:4px;background:repeating-linear-gradient(90deg,var(--border-2) 0 14px,transparent 14px 28px);position:relative;"></div>
+          <div style="font-size:20px;color:var(--accent);font-weight:700;margin-top:14px;">被 AI 自動化工具瞬間撫平</div>
+        </div>
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:34px 38px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.06));">
+          <div style="font-size:21px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase;">執行</div>
+          <div style="font-size:38px;font-weight:800;margin-top:8px;">前端開發</div>
+        </div>
+      </div>
+      <p class="reveal lead" style="--d:.32s;max-width:1400px;font-size:38px;line-height:1.4;">
+        如果工作定位只是兩個角色之間的<b>「溝通橋樑」</b>——這座橋，正被<span class="accent" style="font-weight:700;">瞬間移動裝置</span>無情取代。</p>
+    </div>
+    <div class="slide-no">06</div>
+  </section>
+
+  <!-- 07 · PM 作為聚合核心 -->
+  <section class="slide" data-label="PM Aggregation">
+    <p class="eyebrow reveal">PM as the Aggregation Core</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:20px;">PM 成為首波「職能吞噬」的核心</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1.25fr 1fr;gap:60px;align-items:center;margin-top:20px;">
+      <div class="reveal scaleIn" style="--d:.2s;position:relative;height:540px;display:flex;align-items:center;justify-content:center;">
+        <div class="agg-core">
+          <div>
+            <div style="font-size:23px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.85;">聚合核心</div>
+            <div style="font-size:78px;font-weight:900;letter-spacing:-.02em;line-height:1;margin-top:6px;">PM</div>
+            <div style="font-size:21px;opacity:.9;margin-top:8px;">Product Manager</div>
+          </div>
+        </div>
+        <div class="agg-sat" style="top:26px;left:40px;">市場需求研究</div>
+        <div class="agg-sat" style="top:26px;right:30px;">設計與原型</div>
+        <div class="agg-sat" style="bottom:36px;left:18px;">使用者驗證</div>
+        <div class="agg-sat" style="bottom:36px;right:24px;">可運作的雛形</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:26px;">
+        <p class="reveal" style="--d:.28s;font-size:28px;line-height:1.55;">PM 透過 AI 工具快速執行<b>市場研究、設計與原型開發、使用者驗證</b>，一人產出可運作的產品雛形——成為首波吞噬周邊專才的<span class="accent" style="font-weight:700;">聚合核心</span>。</p>
+        <div class="reveal" style="--d:.4s;background:var(--surface-2);border-radius:20px;padding:28px 30px;">
+          <div style="font-size:20px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);">但是……</div>
+          <p style="font-size:25px;line-height:1.5;margin:10px 0 0;">速度有了，卻往往<b>失去被吸收掉的專才所具備的深度工藝與美學</b>。</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-no">07</div>
+  </section>
+
+  <!-- 08 · AI 廢料時代 -->
+  <section class="slide dark" data-label="AI Slop Era">
+    <p class="eyebrow reveal">The AI Slop Era</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:20px;">「AI 廢料時代」降臨</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center;margin-top:24px;">
+      <div class="reveal" style="--d:.16s;background:var(--d-surface);border:1px solid var(--d-border);border-radius:26px;padding:44px 46px;">
+        <div style="font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--danger);">問題 · The Problem</div>
+        <div style="font-size:54px;font-weight:900;letter-spacing:-.02em;margin:14px 0 18px;">AI 廢料 <span class="en" style="font-weight:300;color:var(--d-fg-muted);font-size:.6em;">(Slop)</span></div>
+        <p style="font-size:26px;line-height:1.55;color:var(--d-fg-muted);margin:0;">同質性極高、缺乏靈魂與深度工藝的機器生成內容與介面。PM 雖能快速做出功能齊全的產品，卻失去了被吸收專才的<b style="color:var(--d-fg);">深度美學</b>。</p>
+      </div>
+      <div class="reveal" style="--d:.3s;position:relative;border-radius:26px;padding:44px 46px;background:linear-gradient(150deg,color-mix(in oklab,var(--accent) 24%,var(--d-surface)),var(--d-surface));border:1px solid color-mix(in oklab,var(--accent) 40%,transparent);">
+        <div style="font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);">解答 · The Answer</div>
+        <div style="font-size:54px;font-weight:900;letter-spacing:-.02em;margin:14px 0 18px;">產品打造者</div>
+        <p style="font-size:26px;line-height:1.55;color:var(--d-fg-muted);margin:0;">超越單純追求速度的「AI 增強型 PM」，邁向融合<b style="color:var(--d-fg);">美學、工程與同理心</b>的 <span class="accent" style="font-weight:700;">Product Builder</span>。</p>
+      </div>
+    </div>
+    <div class="slide-no">08</div>
+  </section>
+
+  <!-- 09 · UNIT 2 DIVIDER -->
+  <section class="slide warm" data-label="Unit 2" data-screen-label="Unit 2">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+      <div class="divider-no reveal">02</div>
+      <h1 class="divider-title reveal" style="--d:.1s;margin-top:18px;">「產品打造者」框架</h1>
+      <p class="divider-en reveal" style="--d:.18s;color:var(--fg-muted);">The Product Builder Framework · 四大支柱</p>
+      <div class="divider-list reveal" style="--d:.28s">
+        <span class="chip"><b style="color:var(--accent);">支柱一</b>&nbsp;研究與洞察</span>
+        <span class="chip"><b style="color:var(--accent);">支柱二</b>&nbsp;氛圍設計</span>
+        <span class="chip"><b style="color:var(--accent);">支柱三</b>&nbsp;創新護城河</span>
+        <span class="chip"><b style="color:var(--accent);">支柱四</b>&nbsp;代理評估</span>
+      </div>
+    </div>
+    <div class="kicker-foot">第二單元 / UNIT 02</div>
+  </section>
+
+  <!-- 10 · 支柱一 質化研究 -->
+  <section class="slide" data-label="Qual Research">
+    <p class="eyebrow reveal">支柱一 · 質化研究 — AI User Researcher</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;font-size:56px;">尺度擴張：規模化的同理心</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:23px;margin:14px 0 0;">將 400 萬+ 真實使用者與全時段非結構化資料，轉化為可收斂的洞察。<span style="color:var(--fg-subtle);">滑過卡片展開細節 →</span></p>
+    <div style="flex:1;display:flex;flex-direction:column;gap:22px;justify-content:center;margin-top:8px;">
+      <div>
+        <div class="cat-label reveal" style="--d:.12s">規模化招募與非同步訪談 · Scale Interviewing</div>
+        <div class="card-grid" style="grid-template-columns:repeat(4,1fr);margin-top:14px;">
+          <div class="hcard reveal" style="--d:.16s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=userintuition.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">User Intuition</p></div><p class="h-tag">一條龍研究</p><p class="h-desc">整合 400 萬+ 真實使用者，打通「研究規劃 → 自動篩選招募 → 30+ 分鐘 AI 深度語音與文字訪談」。</p></div>
+          <div class="hcard reveal" style="--d:.22s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=listenlabs.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Listen Labs</p></div><p class="h-tag">無痛招募</p><p class="h-desc">免去繁瑣排程，非同步規模化觸及，讓質化訪談的招募不再是瓶頸。</p></div>
+          <div class="hcard reveal" style="--d:.28s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=koji.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Koji</p></div><p class="h-tag">免主持</p><p class="h-desc">免去人工主持，自動化大規模在線對話，釋放研究員的時間。</p></div>
+          <div class="hcard reveal" style="--d:.34s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=perspectiveai.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Perspective AI</p></div><p class="h-tag">追問為什麼</p><p class="h-desc">對數百位使用者同時展開 Adaptive Probing，針對模糊回答追問「為什麼」，突破產能極限。</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-label reveal" style="--d:.3s">全時段非結構化資料深層分析 · Unstructured Analysis</div>
+        <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:14px;">
+          <div class="hcard reveal" style="--d:.34s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=dovetail.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Dovetail</p></div><p class="h-tag">主題叢集</p><p class="h-desc">將客服通話、會議逐字稿、回饋與工單集中，透過 AI Thematic Clustering 快速收斂主要痛點。</p></div>
+          <div class="hcard reveal" style="--d:.4s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=coloop.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">CoLoop</p></div><p class="h-tag">質化收斂</p><p class="h-desc">把零散質化資料變成可分析的洞察集合，加速從資料到結論的旅程。</p></div>
+          <div class="hcard reveal" style="--d:.46s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=enterpret.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Enterpret</p></div><p class="h-tag">資料流治理</p><p class="h-desc">直串 50+ 外部管道（Zendesk、Salesforce、Reddit），以 Adaptive Taxonomy 自動解構，並連結營收與流失訊號。</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-no">10</div>
+  </section>
+
+  <!-- 11 · 支柱一 量化洞察 -->
+  <section class="slide" data-label="Quant Insight">
+    <p class="eyebrow reveal">支柱一 · 量化洞察 — AI Data Researcher</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;font-size:56px;">精準探勘：數據背後的「為什麼」</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:23px;margin:14px 0 0;">從 No-code 行為診斷，到 AI 時代的 MCP 架構，分析直接串接決策。</p>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:center;margin-top:24px;">
+      <div class="hcard reveal" style="--d:.16s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=fullstory.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Fullstory</p></div><p class="h-tag">免埋點診斷</p><p class="h-desc">StoryAI 自動偵測「憤怒點擊」「無效點擊」等挫折訊號，用自然語言還原流失原因並重播 session。</p></div>
+      <div class="hcard reveal" style="--d:.24s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=pendo.io&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Pendo</p></div><p class="h-tag">白話漏斗</p><p class="h-desc">AI 助手 Leo 用白話文回答漏斗與留存；自動生成偵測規則，監控使用者與 AI 機器人的對話健康度。</p></div>
+      <div class="hcard reveal" style="--d:.32s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=mixpanel.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Mixpanel</p></div><p class="h-tag">MCP 首創</p><p class="h-desc">Spark AI 主動探尋「為什麼」，將 AI 輸出狀態納入指標；首創 MCP 伺服器，讓 Cursor／Claude 直接查詢分析。</p></div>
+      <div class="hcard reveal" style="--d:.4s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=amplitude.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Amplitude</p></div><p class="h-tag">分析閉環</p><p class="h-desc">Compass 自動發掘預測留存的「Aha! Moment」；內建 Predictive Cohorts 與 Experiment，分析直連 A/B 測試。</p></div>
+    </div>
+    <div class="slide-no">11</div>
+  </section>
+
+  <!-- 12 · 支柱二 氛圍設計 intro -->
+  <section class="slide warm" data-label="Vibe Design">
+    <p class="eyebrow reveal">支柱二 · 氛圍設計 — Vibe Design</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">從「調整像素」到「氛圍設計」</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:center;margin-top:20px;">
+      <div style="display:flex;flex-direction:column;gap:30px;">
+        <div class="reveal" style="--d:.16s;display:flex;align-items:center;gap:28px;">
+          <div style="text-align:center;">
+            <div style="font-size:40px;font-weight:800;color:var(--fg-muted);">調整像素</div>
+            <div style="font-size:20px;color:var(--fg-subtle);margin-top:4px;">Pushing Pixels</div>
+          </div>
+          <div style="font-size:60px;color:var(--accent);font-weight:300;">→</div>
+          <div style="text-align:center;">
+            <div style="font-size:40px;font-weight:900;color:var(--fg);">氛圍設計</div>
+            <div style="font-size:20px;color:var(--accent);margin-top:4px;">Vibe Design</div>
+          </div>
+        </div>
+        <p class="reveal lead" style="--d:.28s;font-size:30px;line-height:1.55;">設計師引導內建<b>設計系統、無障礙規範與使用者情境</b>的 AI 代理直接生成 UI——產出即是<span class="accent" style="font-weight:700;">可直接上線的前端程式碼</span>。</p>
+        <p class="reveal" style="--d:.38s;font-size:26px;color:var(--fg-muted);">畫布與真實瀏覽器環境之間的鴻溝，就此消失。</p>
+      </div>
+      <div class="reveal scaleIn" style="--d:.3s;background:var(--d-bg);color:var(--d-fg);border-radius:26px;padding:44px 46px;position:relative;overflow:hidden;">
+        <div class="markq" style="font-size:150px;">"</div>
+        <p class="serif" style="font-size:32px;line-height:1.5;font-weight:400;margin:0 0 24px;">開發者不再手動撰寫每一行程式碼，而是透過高層次「意圖引導」，讓 AI 實作。</p>
+        <div style="display:flex;align-items:center;gap:14px;border-top:1px solid var(--d-border);padding-top:22px;">
+          <div style="font-size:23px;font-weight:700;">Andrej Karpathy</div>
+          <div style="font-size:20px;color:var(--d-fg-muted);">— Vibe Coding</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-no">12</div>
+  </section>
+
+  <!-- 13 · 氛圍設計工具實測 (FLIP CARDS) -->
+  <section class="slide" data-label="Vibe Tools">
+    <p class="eyebrow reveal">支柱二 · 工具實測 — 2026 Vibe Design Stack</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:12px;font-size:48px;">主流氛圍設計工具，逐一拆解</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:22px;margin:10px 0 0;">滑過任一張卡片翻面，比較優點與缺點 <span style="color:var(--fg-subtle);">(Pros / Cons)</span></p>
+    <div class="flip-grid reveal" style="--d:.14s;grid-template-columns:repeat(4,1fr);grid-auto-rows:348px;margin-top:22px;">
+      <!-- Claude Design -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Claude Design</p></div><p class="flip-role">2026 最強黑馬</p><p class="flip-blurb">讀取你的 GitHub 程式庫，繼承既有品牌設計系統與元件，徹底告別 generic AI 美學。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>程式庫原生整合，繼承品牌設計系統</span></div><div class="pc-row pro"><span class="ic">+</span><span>HTML 意圖打包，直接對接 Claude Code 部署</span></div><div class="pc-row pro"><span class="ic">+</span><span>inline 註記、語音命令、live sliders 微調</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>研究預覽；直接編輯會被下次 prompt 洗掉，無歷史回溯</span></div></div>
+      </div></div>
+      <!-- Lovable -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=lovable.dev&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Lovable</p></div><p class="flip-role">設計導向驗證神器</p><p class="flip-blurb">生成極致美觀的 React + Tailwind UI，整合 Supabase 處理資料庫與會員驗證。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>極致美觀的 React + Tailwind UI</span></div><div class="pc-row pro"><span class="ic">+</span><span>整合 Supabase，一鍵部署與 GitHub 同步</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>僅支援 React</span></div><div class="pc-row con"><span class="ic">−</span><span>安全架構／RLS／支付邏輯脆弱，需人工審查</span></div></div>
+      </div></div>
+      <!-- Bolt.new -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=bolt.new&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Bolt.new</p></div><p class="flip-role">瀏覽器內原型專家</p><p class="flip-blurb">透過 WebContainers 完全在瀏覽器內運行，免去繁瑣的本機開發環境設定。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>全瀏覽器內運行，免本機環境</span></div><div class="pc-row pro"><span class="ic">+</span><span>支援 React／Vue／Svelte／Astro</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>代碼品質與安全性不足以直接上線</span></div><div class="pc-row con"><span class="ic">−</span><span>修大型專案 Bug 時 Token 消耗極大</span></div></div>
+      </div></div>
+      <!-- Replit Agent -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=replit.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Replit Agent</p></div><p class="flip-role">全端自主代理</p><p class="flip-blurb">主動澄清模糊語意，自主端到端開發與除錯，產出可在生產環境運行的 SaaS。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>強架構規劃力，前期主動澄清</span></div><div class="pc-row pro"><span class="ic">+</span><span>自主開發 200 分鐘，自我除錯反射迴圈</span></div><div class="pc-row pro"><span class="ic">+</span><span>全能代管：IDE＋DB＋30+ 連接器</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>設計美感偏低、門檻高、計費不透明</span></div></div>
+      </div></div>
+      <!-- Google Stitch -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=stitch.withgoogle.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Google Stitch</p></div><p class="flip-role">語音意圖與即時探索</p><p class="flip-blurb">Voice Canvas 語音即時渲染與設計對談，支援 multi-screen 自動流生成。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>Voice Canvas 語音即時渲染</span></div><div class="pc-row pro"><span class="ic">+</span><span>multi-screen 自動流＋Figma 雙向；免費 350 次／月</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>偏單人探索，缺多人協作與企業級版控</span></div></div>
+      </div></div>
+      <!-- Vercel v0 -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=v0.dev&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Vercel v0</p></div><p class="flip-role">生產級前端元件</p><p class="flip-blurb">生成符合工業標準、內建無障礙與安全掃描的 React 元件（基於 shadcn/ui）。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>工業標準、內建 a11y 與安全掃描</span></div><div class="pc-row pro"><span class="ic">+</span><span>可安全部署上線</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>高度侷限前端元件，無後端與資料庫支援</span></div></div>
+      </div></div>
+      <!-- Cursor -->
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=cursor.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Cursor</p></div><p class="flip-role">開發者戰力放大器</p><p class="flip-blurb">AI 原生編輯器，對全域 codebase 理解深，保留人類對底層安全與架構的控制權。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>深度 codebase 理解，Composer 多檔同步</span></div><div class="pc-row pro"><span class="ic">+</span><span>保留人類對架構的極致控制</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>無視覺化即時預覽</span></div><div class="pc-row con"><span class="ic">−</span><span>要求傳統前端工程背景</span></div></div>
+      </div></div>
+      <!-- legend cell -->
+      <div style="border:1px dashed var(--border-2);border-radius:24px;padding:28px 30px;display:flex;flex-direction:column;justify-content:center;gap:14px;background:var(--surface-2);">
+        <div style="font-size:24px;font-weight:800;">選型心法</div>
+        <div style="font-size:20px;line-height:1.5;color:var(--fg-muted);">驗證看 <b style="color:var(--fg);">Lovable</b>／<b style="color:var(--fg);">Stitch</b>；上線看 <b style="color:var(--fg);">Replit</b>／<b style="color:var(--fg);">v0</b>；掌控看 <b style="color:var(--fg);">Cursor</b>；繼承品牌看 <b style="color:var(--accent);">Claude Design</b>。</div>
+      </div>
+    </div>
+    <div class="slide-no">13</div>
+  </section>
+
+  <!-- 14 · 支柱三 90/10 護城河 -->
+  <section class="slide warm" data-label="90/10 Moat">
+    <p class="eyebrow reveal">支柱三 · 創新護城河 — Anti AI Slop</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">90 / 10 法則：護城河在那 10%</h1>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px;margin-top:10px;">
+      <div class="reveal" style="--d:.16s;">
+        <div style="display:flex;height:150px;border-radius:20px;overflow:hidden;border:1px solid var(--border);">
+          <div class="split90" style="width:90%;background:var(--surface-2);display:flex;flex-direction:column;justify-content:center;padding:0 40px;">
+            <div style="font-size:46px;font-weight:900;color:var(--fg-muted);">90%</div>
+            <div style="font-size:23px;color:var(--fg-muted);font-weight:600;">常用型 UI · 交由 AI 快速生成</div>
+          </div>
+          <div class="split10" style="width:10%;background:linear-gradient(180deg,var(--accent),var(--accent-deep));display:flex;flex-direction:column;justify-content:center;padding:0 26px;color:#fff;">
+            <div style="font-size:46px;font-weight:900;">10%</div>
+            <div style="font-size:19px;font-weight:700;white-space:nowrap;">Magical</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+        <div class="reveal" style="--d:.28s;">
+          <div style="font-size:26px;font-weight:800;color:var(--fg-muted);">90% 常用型 UI</div>
+          <p style="font-size:24px;line-height:1.5;margin:10px 0 0;color:var(--fg-muted);">表單、清單、設定頁面——交由 AI 快速編譯與生成，不再消耗人類心力。</p>
+        </div>
+        <div class="reveal" style="--d:.38s;border-left:3px solid var(--accent);padding-left:28px;">
+          <div style="font-size:26px;font-weight:800;color:var(--accent);">10% Magical Experience</div>
+          <p style="font-size:24px;line-height:1.5;margin:10px 0 0;">產品打造者將 <b>100% 手動精力</b>傾注於此，親手雕琢無法被 AI 輕易複製的<b>產品靈魂</b>。</p>
+        </div>
+      </div>
+      <div class="reveal" style="--d:.48s;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 32px;display:flex;gap:24px;align-items:center;">
+        <div style="font-size:20px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap;">Generative UI</div>
+        <p style="font-size:23px;line-height:1.5;margin:0;color:var(--fg-muted);">介面不再是預先設計好的靜態排版，而是根據使用者當下意圖即時組裝的動態元件。設計師的角色，轉為<b style="color:var(--fg);">「設計 UI 工具箱」</b>，供 AI Agent 在互動時精確 function calling。</p>
+      </div>
+    </div>
+    <div class="slide-no">14</div>
+  </section>
+
+  <!-- 15 · 支柱四 三維聯防 -->
+  <section class="slide" data-label="Eval 3D">
+    <p class="eyebrow reveal">支柱四 · 代理評估 — Agent Eval</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">產品三劍客的 Eval 三維聯防</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:23px;margin:14px 0 0;">AI 代理是非確定性系統——單次正確性檢查無意義，必須量測「系統行為」。</p>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:center;margin-top:20px;">
+      <div class="hcard reveal" style="--d:.18s;border-top:4px solid var(--accent);">
+        <p class="h-tag" style="margin-bottom:6px;">研究員 · UXR</p>
+        <p class="h-name" style="font-size:38px;">黃金與白銀資料集</p>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:2px 0 16px;">Gold &amp; Silver Sets</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;">由主題專家 (SMEs) 從頭建構真實痛點、邊界條件與已知惡意輸入，作為代理評估的 <b style="color:var(--fg);">Ground Truth</b>。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.28s;border-top:4px solid var(--accent);">
+        <p class="h-tag" style="margin-bottom:6px;">設計師 · Designer</p>
+        <p class="h-name" style="font-size:38px;">主觀感受量表</p>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:2px 0 16px;">Subjective Rubrics</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;">定義 <b style="color:var(--fg);">Clarity</b>（清晰度）、<b style="color:var(--fg);">Helpfulness</b>（幫助性）、<b style="color:var(--fg);">Tone</b>（語調與品牌 alignment）等體驗品質指標。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.38s;border-top:4px solid var(--accent);">
+        <p class="h-tag" style="margin-bottom:6px;">產品經理 · PM</p>
+        <p class="h-name" style="font-size:38px;">運行限制邊界</p>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:2px 0 16px;">Operating Envelopes</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;">限制 <b style="color:var(--fg);">Max Steps</b>、<b style="color:var(--fg);">Token Budget</b> 與超時，在 CI/CD 中阻斷成本或延遲失控的路徑。</p>
+      </div>
+    </div>
+    <div class="slide-no">15</div>
+  </section>
+
+  <!-- 16 · GPA 框架 + 溫針 -->
+  <section class="slide" data-label="GPA Framework">
+    <p class="eyebrow reveal">支柱四 · 雪花實驗室 — The GPA Framework</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">Goal · Plan · Action：拆解代理的每一步</h1>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:36px;">
+      <div class="reveal" style="--d:.18s;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
+        <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">G</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Goal · 目標</span></div>
+        <p style="font-size:23px;line-height:1.5;margin:16px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Answer Correctness &amp; Relevance</b>——最終回答是否契合使用者意圖、具事實正確性，並由檢索資料支持 (Groundedness)。</p>
+      </div>
+      <div class="reveal" style="--d:.28s;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
+        <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">P</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Plan · 規劃</span></div>
+        <p style="font-size:23px;line-height:1.5;margin:16px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Quality &amp; Tool Selection</b>——代理是否設計出合理的 Roadmap，並精確進行工具選擇。</p>
+      </div>
+      <div class="reveal" style="--d:.38s;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
+        <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">A</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Action · 行動</span></div>
+        <p style="font-size:23px;line-height:1.5;margin:16px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Adherence &amp; Tool Calling</b>——是否確實執行步驟、參數正確，無死循環、未授權調用或幻覺外部服務。</p>
+      </div>
+    </div>
+    <div class="reveal" style="--d:.48s;background:var(--d-bg);color:var(--d-fg);border-radius:22px;padding:30px 38px;margin-top:30px;display:flex;gap:30px;align-items:center;">
+      <div style="flex:none;text-align:center;">
+        <div style="font-size:58px;font-weight:900;color:var(--accent);line-height:1;">55–65°</div>
+        <div style="font-size:18px;color:var(--d-fg-muted);margin-top:6px;">殺菌且鮮嫩的平衡</div>
+      </div>
+      <div style="width:1px;align-self:stretch;background:var(--d-border);"></div>
+      <p style="font-size:24px;line-height:1.5;margin:0;color:var(--d-fg-muted);"><b style="color:var(--d-fg);">溫針的「光明燈塔」心態：</b>不盲目迷信 73° 的過熟安全溫度，用評估迴圈精準抓出完美平衡。避免過度依賴 <b style="color:var(--d-fg);">LLM-as-a-Judge</b>——它只能做快速 pattern 偵測，不可用於最終決策。</p>
+    </div>
+    <div class="slide-no">16</div>
+  </section>
+
+  <!-- 17 · UNIT 3 DIVIDER -->
+  <section class="slide warm" data-label="Unit 3" data-screen-label="Unit 3">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+      <div class="divider-no reveal">03</div>
+      <h1 class="divider-title reveal" style="--d:.1s;margin-top:18px;">角色轉型</h1>
+      <p class="divider-en reveal" style="--d:.18s;color:var(--fg-muted);">Role Transformation · 專才如何升級為打造者</p>
+      <div class="divider-list reveal" style="--d:.28s">
+        <span class="chip"><b style="color:var(--accent);">01</b>&nbsp;超能力仍在</span>
+        <span class="chip"><b style="color:var(--accent);">02</b>&nbsp;升級硬傷</span>
+      </div>
+    </div>
+    <div class="kicker-foot">第三單元 / UNIT 03</div>
+  </section>
+
+  <!-- 18 · 超能力仍在 -->
+  <section class="slide" data-label="Superpowers">
+    <p class="eyebrow reveal">01 · 超能力仍在 — The Powers Remain</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:14px;font-size:54px;">每個專才，都有無法被取代的內核</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:24px;margin-top:30px;">
+      <div class="hcard reveal" style="--d:.16s;display:flex;flex-direction:column;justify-content:center;">
+        <div class="arrow-pill" style="font-size:30px;"><span style="color:var(--fg-muted);">研究員</span><span class="ar">→</span><span class="accent">真實資料治理者</span></div>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:4px 0 0;">Ground Truth Governor</p>
+        <p style="font-size:23px;line-height:1.5;color:var(--fg-muted);margin:14px 0 0;">稽核與清洗資料，防止合成資料自我循環導致「模型崩塌」；專注尋找 AI 平均值遺漏的<b style="color:var(--fg);">「人類摩擦力」</b>。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.24s;display:flex;flex-direction:column;justify-content:center;">
+        <div class="arrow-pill" style="font-size:30px;"><span style="color:var(--fg-muted);">設計師</span><span class="ar">→</span><span class="accent">DNA 架構師</span></div>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:4px 0 0;">DNA Architect</p>
+        <p style="font-size:23px;line-height:1.5;color:var(--fg-muted);margin:14px 0 0;">定義產品底層行為的啟發式邏輯、品牌美學核心與設計系統，將<b style="color:var(--fg);">人類情感</b>嵌入系統之中。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.32s;display:flex;flex-direction:column;justify-content:center;">
+        <div class="arrow-pill" style="font-size:30px;"><span style="color:var(--fg-muted);">PM</span><span class="ar">→</span><span class="accent">誘因設計師</span></div>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:4px 0 0;">Incentive Designer</p>
+        <p style="font-size:23px;line-height:1.5;color:var(--fg-muted);margin:14px 0 0;">擺脫功能交付角色，精確衡量系統性影響力 (Impact)，以第一性原則擋下無意義的<b style="color:var(--fg);">「AI 廢料」</b>。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.4s;display:flex;flex-direction:column;justify-content:center;">
+        <div class="arrow-pill" style="font-size:30px;"><span style="color:var(--fg-muted);">前端工程師</span><span class="ar">→</span><span class="accent">可靠性層級</span></div>
+        <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:4px 0 0;">Reliability Layer</p>
+        <p style="font-size:23px;line-height:1.5;color:var(--fg-muted);margin:14px 0 0;">負責複雜架構審查、效能調校、安全漏洞掃描，為 AI 程式碼建立<b style="color:var(--fg);">免疫系統</b>。</p>
+      </div>
+    </div>
+    <div class="slide-no">18</div>
+  </section>
+
+  <!-- 19 · 升級硬傷 -->
+  <section class="slide" data-label="Growth Edges">
+    <p class="eyebrow reveal">02 · 升級硬傷 — The Growth Edges</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:14px;font-size:54px;">想升級，就得跨過各自的那道坎</h1>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;">
+      <div class="row-item reveal" style="--d:.16s;grid-template-columns:300px 1fr;">
+        <div><p class="r-h">研究員</p><p style="font-size:21px;color:var(--accent);font-weight:700;margin:4px 0 0;">不要害怕執行</p></div>
+        <p class="r-d" style="align-self:center;">熟悉 <b style="color:var(--fg);">Vibe Coding、Terminal、Jira tickets</b>，開始親手創造產品——從「建議者」變成「Owner」。</p>
+      </div>
+      <div class="row-item reveal" style="--d:.26s;grid-template-columns:300px 1fr;">
+        <div><p class="r-h">設計師</p><p style="font-size:21px;color:var(--accent);font-weight:700;margin:4px 0 0;">天塌下來要扛</p></div>
+        <p class="r-d" style="align-self:center;">面對客戶、面對市場，放棄完美主義。從 <b style="color:var(--fg);">User Center</b> 轉向 <b style="color:var(--fg);">Impact Center</b>。</p>
+      </div>
+      <div class="row-item reveal" style="--d:.36s;grid-template-columns:300px 1fr;">
+        <div><p class="r-h">PM</p><p style="font-size:21px;color:var(--accent);font-weight:700;margin:4px 0 0;">科學研究 × 美感品味</p></div>
+        <p class="r-d" style="align-self:center;">對於醜的、難用的、令人困惑的體驗，<b style="color:var(--fg);">抓得出來</b>，並知道怎樣的 prompt 能改。</p>
+      </div>
+      <div class="row-item reveal" style="--d:.46s;grid-template-columns:300px 1fr;border-bottom:1px solid var(--border);">
+        <div><p class="r-h">前端工程師</p><p style="font-size:21px;color:var(--accent);font-weight:700;margin:4px 0 0;">User Empathy</p></div>
+        <p class="r-d" style="align-self:center;">產品不是「能動」就好了——去了解產品<b style="color:var(--fg);">為什麼會失敗</b>。</p>
+      </div>
+    </div>
+    <div class="slide-no">19</div>
+  </section>
+
+  <!-- 20 · UNIT 4 DIVIDER -->
+  <section class="slide dark" data-label="Unit 4" data-screen-label="Unit 4">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+      <div class="divider-no reveal">04</div>
+      <h1 class="divider-title reveal" style="--d:.1s;margin-top:18px;">AI 末日啟示錄</h1>
+      <p class="divider-en reveal" style="--d:.18s">AI Apocalyptics · 黃金窗口與生存策略</p>
+      <div class="divider-list reveal" style="--d:.28s">
+        <span class="chip">40% 結構性失業斷崖</span>
+        <span class="chip">瓦力 vs 極樂世界</span>
+        <span class="chip">在非人世界中生存</span>
+      </div>
+    </div>
+    <div class="kicker-foot">第四單元 / UNIT 04</div>
+  </section>
+
+  <!-- 21 · 40% 失業斷崖 -->
+  <section class="slide dark" data-label="40% Cliff">
+    <p class="eyebrow reveal">技術性失業的冰冷斷崖</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">40% 的結構性失業斷崖</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1.1fr;gap:70px;align-items:center;margin-top:10px;">
+      <div>
+        <div class="reveal" style="--d:.18s;"><div class="stat-num accent" style="font-size:240px;">40<span class="stat-unit" style="font-size:.32em;">%</span></div></div>
+        <p class="reveal" style="--d:.3s;font-size:27px;line-height:1.5;color:var(--d-fg-muted);margin:6px 0 0;">白領知識工作替代率上升與具身智慧成熟，社會正邁向 40% 結構性失業。</p>
+        <div class="reveal" style="--d:.4s;margin-top:26px;border-left:3px solid var(--danger);padding-left:24px;">
+          <p style="font-size:24px;line-height:1.5;margin:0;color:var(--d-fg-muted);">歷史資料指出：當失業率達 <b style="color:var(--d-fg);">20–30%</b> 時，國家社會福利系統將面臨<b style="color:var(--d-fg);">崩潰邊緣</b>。</p>
+        </div>
+      </div>
+      <div>
+        <div class="reveal" style="--d:.28s;font-size:24px;font-weight:700;letter-spacing:.04em;color:var(--d-fg-muted);margin-bottom:22px;">就業市場無情的一分為二</div>
+        <div class="reveal" style="--d:.36s;background:var(--d-surface);border:1px solid var(--d-border);border-radius:22px;padding:30px 34px;border-left:5px solid var(--accent);">
+          <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:48px;font-weight:900;color:var(--accent);">60%</span><span style="font-size:27px;font-weight:800;">疲憊的「打造者階層」</span></div>
+          <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:10px 0 0;">編排、管理與調校 AI 代理，承受高強度認知負載並持續創造價值。</p>
+        </div>
+        <div class="reveal" style="--d:.46s;background:var(--d-surface);border:1px solid var(--d-border);border-radius:22px;padding:30px 34px;border-left:5px solid var(--danger);margin-top:20px;">
+          <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:48px;font-weight:900;color:var(--danger);">40%</span><span style="font-size:27px;font-weight:800;">被管理的「邊緣化階層」</span></div>
+          <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:10px 0 0;">被 AI 代理指派任務、監控並稽核，隨時面臨被完全自動化取代。</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-no">21</div>
+  </section>
+
+  <!-- 22 · 瓦力 vs 極樂世界 -->
+  <section class="slide dark" data-label="Wall-E vs Elysium">
+    <p class="eyebrow reveal">兩種劇本 · Two Scripts</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">《瓦力》 vs 《極樂世界》</h1>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:26px;">
+      <div class="scenario reveal" style="--d:.18s;">
+        <image-slot id="walle" src="images/walle.webp" style="width:100%;height:240px;display:block;" shape="rect" placeholder="拖入《瓦力》劇照"></image-slot>
+        <div class="sc-body">
+          <div class="sc-tag">劇本 A · Wall-E</div>
+          <h2 class="sc-title">溫柔的牢籠</h2>
+          <p style="font-size:23px;line-height:1.5;color:var(--d-fg-muted);margin:0;">政府與資本家妥協，課徵 AI 稅並全面實施 <b style="color:var(--d-fg);">全民基本收入 (UBI)</b>。人類退化為 AI 的「寵物」，活在電子托兒所與虛擬短影片中——歲月靜好，卻失去生命自主與目標。</p>
+        </div>
+      </div>
+      <div class="scenario reveal" style="--d:.3s;">
+        <image-slot id="elysium" src="images/elysium.webp" style="width:100%;height:240px;display:block;" shape="rect" placeholder="拖入《極樂世界》劇照"></image-slot>
+        <div class="sc-body">
+          <div class="sc-tag">劇本 B · Elysium</div>
+          <h2 class="sc-title">高牆的監獄</h2>
+          <p style="font-size:23px;line-height:1.5;color:var(--d-fg-muted);margin:0;">科技精英高度壟斷 AI 所有權與資源，建立 <b style="color:var(--d-fg);">AI 極權監管系統</b>與自動化監獄。精英以自動化與核融合探索太空，地球底層在嚴酷的機器監管中勉強度日。</p>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="--d:.42s;margin-top:28px;background:linear-gradient(120deg,color-mix(in oklab,var(--accent) 22%,var(--d-surface)),var(--d-surface));border:1px solid color-mix(in oklab,var(--accent) 35%,transparent);border-radius:20px;padding:24px 34px;display:flex;align-items:center;gap:26px;">
+      <div style="font-size:24px;font-weight:900;color:var(--accent);white-space:nowrap;">2026 — 2030</div>
+      <p style="font-size:24px;line-height:1.45;margin:0;">關鍵決擇窗口將徹底決定文明走向，核心只有一個問題：<b>AI 代理，控制在誰的手中？</b></p>
+    </div>
+    <div class="slide-no">22</div>
+  </section>
+
+  <!-- 23 · 如何在非人世界中生存 -->
+  <section class="slide dark" data-label="Survive">
+    <p class="eyebrow reveal">生存策略 · Survival Strategies</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">如何在「非人世界」中生存</h1>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:center;margin-top:24px;">
+      <div class="hcard reveal" style="--d:.18s;display:flex;flex-direction:column;">
+        <div style="font-size:60px;font-weight:900;color:var(--accent);line-height:1;">01</div>
+        <p class="h-name" style="font-size:34px;margin-top:18px;">成為統計學上的「不規則者」</p>
+        <p style="font-size:20px;color:var(--d-fg-muted);font-weight:600;margin:8px 0 0;">Statistical Outlier</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:16px 0 0;">AI 的產出是歷史資料的機率分布——要生存，必須主動活在<b style="color:var(--d-fg);">平均值之外</b>。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.28s;display:flex;flex-direction:column;">
+        <div style="font-size:60px;font-weight:900;color:var(--accent);line-height:1;">02</div>
+        <p class="h-name" style="font-size:34px;margin-top:18px;">全面掌控核心技術堆疊</p>
+        <p style="font-size:20px;color:var(--d-fg-muted);font-weight:600;margin:8px 0 0;">Master the Stack</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:16px 0 0;">以第一性原則，用 <b style="color:var(--d-fg);">Replit、Cursor、Framer</b> 去「建造」，讓設計、工程與產品思維在同一個大腦聚合。</p>
+      </div>
+      <div class="hcard reveal" style="--d:.38s;display:flex;flex-direction:column;">
+        <div style="font-size:60px;font-weight:900;color:var(--accent);line-height:1;">03</div>
+        <p class="h-name" style="font-size:34px;margin-top:18px;">注入「人類儀式感」的摩擦力</p>
+        <p style="font-size:20px;color:var(--d-fg-muted);font-weight:600;margin:8px 0 0;">Intentional Friction</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:16px 0 0;">在設計中刻意保留意圖性的「物理質感」與摩擦力，拒絕被<b style="color:var(--d-fg);">完全無縫的機器便利</b>同化。</p>
+      </div>
+    </div>
+    <div class="slide-no">23</div>
+  </section>
+
+  <!-- 24 · QUOTE -->
+  <section class="slide dark" data-label="Quote">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1500px;">
+      <span class="markq reveal" style="margin-bottom:40px;">"</span>
+      <p class="bigquote reveal" style="--d:.12s;">在產能無限的世界裡，<br>唯一保有價值的，是<span class="accent">人類的意圖</span>。</p>
+      <p class="reveal" style="--d:.28s;font-size:30px;line-height:1.55;color:var(--d-fg-muted);margin:44px 0 0;max-width:1200px;">
+        「如何執行」已然廉價——<b style="color:var(--d-fg);">「為什麼要建造」</b>與<b style="color:var(--d-fg);">「如何建立靈魂共鳴」</b>，才是最稀缺的資源。</p>
+    </div>
+    <div class="kicker-foot">結語 / CLOSING</div>
+  </section>
+
+  <!-- 25 · CLOSING -->
+  <section class="slide dark" data-label="Closing">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1480px;">
+      <p class="eyebrow reveal">The Great Aggregation</p>
+      <h1 class="reveal" style="--d:.1s;font-size:62px;font-weight:900;letter-spacing:-.02em;line-height:1.18;margin:26px 0 0;">
+        大聚合時代並非終局。</h1>
+      <p class="reveal" style="--d:.2s;font-size:34px;font-weight:300;line-height:1.5;color:var(--d-fg-muted);margin:24px 0 0;">
+        它迫使我們褪去機械式的重複勞動，回歸到最純粹的<span class="accent" style="font-weight:600;">直覺、同理心與創造意圖</span>之中。</p>
+    </div>
+    <div class="reveal" style="--d:.34s;display:flex;align-items:center;gap:22px;border-top:1px solid var(--d-border);padding-top:34px;">
+      <image-slot id="closing-avatar" style="width:72px;height:72px" shape="circle" placeholder="頭像"></image-slot>
+      <div>
+        <div style="font-size:24px;font-weight:700;">Albert Wang</div>
+        <div style="font-size:20px;color:var(--d-fg-muted);">Ai Product Builder · LinkedIn</div>
+      </div>
+      <div style="margin-left:auto;font-size:22px;color:var(--d-fg-muted);white-space:nowrap;">謝謝聆聽 · Thank you</div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script type="application/json" id="speaker-notes">
+[
+"歡迎大家。今天這場分享的標題，叫做「大聚合時代」。這不是一個關於某個工具、某個技巧的演講，而是關於我們這個行業——設計、研究、產品、工程——正在發生的一次結構性重組。過去我們靠分工生存，每個人守著自己的專業。但接下來這一個小時，我想說服你：那個時代正在結束，取而代之的，是一種我稱為「產品打造者」的新物種。我們從專才的滅絕，一路講到它的興起。",
+"先簡單自我介紹。我做了十八年的 UX。從 LinkedIn 的資深設計師開始，主導過首頁、搜尋、成長與聯絡人系統；到 Inkling 操刀多媒體電子書與 CMS；再到 Bloomreach 當設計總監，跨美、印、歐三地管團隊，深耕搜尋演算法與購物助理 chatbot；最後在 Observe.AI 帶九個人的團隊，打造語音 AI、客服 Copilot 跟自動化品管 agent。我講這些不是炫耀資歷，而是想說：我經歷過設計從「畫稿子」變成「做系統」的整個過程，今天的觀察，是站在這條路上得出來的。",
+"今天的內容分成四個單元。第一，我們看就業市場正在發生的斷裂——為什麼有些角色失業率飆三倍，有些卻穩如泰山。第二，是這場演講的核心：產品打造者的框架，四大支柱。第三，談角色轉型，每個專才該怎麼升級。第四，比較沉重一點，我們直視 AI 帶來的末日想像，以及怎麼在裡面活下來。如果中間想跳，這四張卡片都能點。",
+"第一單元，就業市場的斷裂。我想先把殘酷的現實攤開來講。",
+"先看數據。過去三年，美國的設計師、UX 研究員、前端工程師，失業率飆升了三百個百分點，攀升到大約百分之八。但同一段時間，產品經理跟後端工程師呢？穩穩地維持在百分之三。為什麼差這麼多？不是因為誰比較努力，而是因為 PM 跟後端手上握著一把鑰匙——底層的「系統邏輯」跟「商業價值」。被聚合掉的，往往是那些工作定位在「中間」的人。",
+"為什麼會這樣？因為「交接」這件事，正在消失。過去從思考——也就是研究跟設計——到執行也就是前端，中間有一道摩擦力，需要溝通、需要 handoff。AI 把這道摩擦力瞬間撫平了。我講白一點：如果你的工作價值，只是當兩個角色之間的「溝通橋樑」，那這座橋，正在被一台瞬間移動裝置取代。橋還在不在不重要了，因為大家可以直接傳送過去。",
+"那誰來吃下這些被釋放出來的工作？第一波，是 PM。PM 透過 AI 工具，一個人就能跑完市場研究、設計原型、使用者驗證，直接產出一個能動的雛形。他成了「聚合核心」，把周邊的專才一個個吸收進來。但這裡有個「但是」——速度是有了，可是他往往失去了那些被他吸收掉的專才，原本具備的深度工藝跟美學。快，不等於好。",
+"於是我們進入了一個我稱為「AI 廢料時代」的階段。所謂 AI 廢料，就是那種同質性極高、缺乏靈魂、沒有深度工藝的機器生成內容跟介面。PM 能快速做出功能齊全的產品，卻是一坨 slop。那解答是什麼？不是更快的「AI 增強型 PM」，而是要往上跳一層——成為融合美學、工程與同理心的「產品打造者」。這就是接下來整個第二單元要拆解的東西。",
+"第二單元，產品打造者的框架。我把它拆成四根支柱：研究與洞察、氛圍設計、創新護城河、還有代理評估。這四根柱子，撐起一個人就能做完整個產品的能力。我們一根一根來看。",
+"支柱一的前半，是質化研究。過去質化研究最大的瓶頸是「規模」——你一天能訪談幾個人？現在 AI 把這個天花板掀了。像 User Intuition、Listen Labs，能整合四百萬以上的真實使用者，從研究規劃、自動招募，到三十分鐘以上的 AI 深度訪談，一條龍跑完。Perspective AI 更狠，能同時對上百人做 adaptive probing，針對模糊回答追問「為什麼」。下面這排——Dovetail、CoLoop、Enterpret——則是把客服通話、逐字稿、工單這些零散資料，自動叢集成痛點。大家可以滑過卡片看細節。",
+"支柱一的後半，是量化洞察。如果說質化是問「為什麼」，量化就是用數據精準探勘那個為什麼。Fullstory 免埋點，自動抓「憤怒點擊」「無效點擊」這些挫折訊號。Pendo 讓你用白話文問漏斗。Mixpanel 最關鍵——它首創了 MCP 伺服器，讓 Cursor 或 Claude 這種 agent 直接呼叫產品分析資料。Amplitude 則把分析直接串到 A/B 測試，形成閉環。重點是：資料分析不再是一份報告，而是能直接驅動決策的即時對話。",
+"支柱二，氛圍設計。Karpathy 講過一句話：開發者不再手動寫每一行程式碼，而是透過高層次的「意圖引導」讓 AI 實作。我們設計師也一樣，正在從「調整像素」轉向「氛圍設計」——你引導一個內建了設計系統、無障礙規範、使用者情境的 AI 代理，直接生成 UI。而且產出的，就是可以直接上線的前端程式碼。畫布跟真實瀏覽器之間的那道鴻溝，消失了。",
+"接下來這張，是我自己花最多時間實測的。2026 年主流的氛圍設計工具，我把它們一張張翻面，比較優缺點。簡單講：要快速驗證設計，看 Lovable 跟 Google Stitch；要真的上線、要後端，看 Replit Agent 跟 Vercel v0；要保留對架構的極致控制，看 Cursor；而如果你想讓產出繼承你既有的品牌設計系統、徹底擺脫 generic AI 美學，2026 最強的黑馬是 Claude Design。大家可以滑過每張卡，背面是它們各自的痛點。沒有一個工具是萬能的，重點是知道什麼場景用什麼。",
+"支柱三，是我認為最重要的——創新的護城河。我叫它九十比十法則。百分之九十的常用型 UI，表單、清單、設定頁，交給 AI 去編譯生成，不要再消耗你的心力。但剩下那百分之十——我稱為 magical experience——你要把百分之百的手動精力，全部灌注在這裡。這是 AI 複製不來的產品靈魂，是你的護城河。延伸下去就是 generative UI：介面不再是預先排好的靜態版面，而是根據使用者當下意圖即時組裝的。設計師的角色，變成設計一個「UI 工具箱」，供 AI 在互動時精準呼叫。",
+"支柱四，代理評估。這是大家最容易忽略、卻最致命的一塊。AI 代理是非確定性系統，你檢查它「一次」答對了，沒有意義，你要量測的是它的「系統行為」。我推薦三維聯防：研究員建「黃金與白銀資料集」，由領域專家定義真實痛點跟惡意輸入，當作 ground truth；設計師主導「主觀感受量表」，定義清晰度、幫助性、語調這些體驗指標；PM 定義「運行限制邊界」，限制最大步數、token 預算跟超時，在 CI/CD 裡擋掉那些品質達標但成本失控的路徑。三個角色，三個維度，缺一不可。",
+"再給大家一個更細的框架，來自雪花實驗室，叫 GPA。Goal——最終答案對不對、跟使用者意圖契不契合、有沒有資料支撐。Plan——代理有沒有規劃出合理的路線、有沒有選對工具。Action——它有沒有真的照做、參數對不對、有沒有死循環或幻覺。最後我想用一個比喻收尾：這就像溫針測肉，不要盲目迷信七十三度的過熟安全溫度，而是用評估迴圈，精準抓到五十五到六十五度那個又殺菌又鮮嫩的完美平衡。還有一句忠告：別過度依賴 LLM 當裁判，它只能做快速的 pattern 偵測，最終決策還是人來扛。",
+"第三單元，角色轉型。前面講了框架，這一段我想直接面對在座的每一位——不管你現在是研究員、設計師、PM、還是工程師，你該怎麼變。",
+"先講好消息：你的超能力還在，只是要換個用法。研究員，升級成「真實資料治理者」，你的價值是稽核資料、防止模型崩塌，去找 AI 平均值會遺漏的那些「人類摩擦力」。設計師，升級成「DNA 架構師」，你定義產品的底層行為邏輯跟品牌美學核心，把人類情感嵌進系統。PM，升級成「誘因設計師」，不再交付功能，而是衡量系統性的影響力，擋下無意義的 AI 廢料。前端，升級成「可靠性層級」，你是 AI 程式碼的免疫系統。內核沒變，舞台變大了。",
+"但升級從來不是免費的，每個角色都有自己要跨的那道坎。研究員，不要害怕執行——去碰 vibe coding、terminal、jira，從一個提建議的人，變成真正 own 產品的人。設計師，天塌下來要扛——直接面對客戶跟市場，放棄完美主義，從 user center 轉向 impact center。PM，要補上科學化研究跟美感品味，看到醜的、難用的體驗，你要抓得出來，還要知道用什麼 prompt 改。前端，要補的是 user empathy——產品不是能動就好，你要去理解它為什麼會失敗。",
+"第四單元，AI 末日啟示錄。前面講的都是怎麼贏，這一段我想誠實地跟大家直視風險。這部分會比較沉重，但我覺得不能不講。",
+"先看一個冰冷的數字：四十趴。隨著白領知識工作的替代率上升、具身智慧成熟，社會正在邁向百分之四十的結構性失業。而歷史告訴我們，當失業率到了百分之二十到三十，國家的社會福利系統就已經在崩潰邊緣了。更殘酷的是，就業市場會無情地一分為二：百分之六十是疲憊的「打造者階層」，編排、管理、調校 AI，承受高強度的認知負載；另外百分之四十，是被管理的「邊緣化階層」，被 AI 指派任務、被監控稽核，隨時可能被完全自動化取代。你想站在哪一邊？",
+"那這條路會通往哪裡？我用兩部電影來比喻。劇本 A 是《瓦力》：政府跟資本家妥協，課 AI 稅、發全民基本收入，人類變成 AI 的寵物，活在電子托兒所跟短影片裡，歲月靜好，但失去了生命的自主跟目標。劇本 B 是《極樂世界》：科技精英壟斷 AI 跟資源，建立極權監管系統，少數人上太空，多數人在機器監控下勉強度日。決定我們走向哪個劇本的，是 2026 到 2030 這段黃金窗口。而核心問題只有一個：AI 代理，到底控制在誰的手裡。",
+"那身為個人，怎麼在這個越來越「非人」的世界活下來？我給三條策略。第一，成為統計學上的「不規則者」——AI 的產出是歷史資料的機率分布，是平均值，你要活下來，就必須主動活在平均值之外。第二，全面掌控核心技術堆疊——用 Replit、Cursor、Framer 親手去建造，讓設計、工程、產品思維在你同一個大腦裡聚合。第三，主動注入「人類儀式感」的摩擦力——刻意保留有意圖的質感跟摩擦，拒絕被完全無縫的機器便利同化。簡單講：不要變成平均值，要掌握全棧，要保有人味。",
+"講到這裡，我想把整場濃縮成一句話：在一個產能無限的世界裡，唯一還保有價值的，是人類的意圖。「如何執行」這件事已經廉價到不行了——真正稀缺的，是「為什麼要建造這個東西」，以及「如何讓它跟人產生靈魂上的共鳴」。技術會一直變，但這個答案不會。",
+"最後我想說，大聚合時代並不是一個終局，它不是來毀滅我們的。它其實是在逼我們，褪去那些機械式的、重複的勞動，回歸到最純粹的直覺、同理心，跟創造的意圖裡面。專才不會消失，但他們會聚合成一種更完整的人。謝謝大家，我是 Albert，很期待跟各位交流。"
+]
+</script>
+<script src="image-slot.js"></script>
+<script src="slide5-chart.js"></script>
+<script src="deck-stage.js"></script>
+<script>
+/* standalone bundle: point the film-still image-slots at the inlined blob URLs.
+   No-op in the dev file (window.__resources is undefined there), so the literal
+   src="images/..." attributes keep working live. */
+(function(){
+  function applyRes(){
+    if(!window.__resources) return false;
+    ['walle','elysium'].forEach(function(id){
+      var el=document.getElementById(id), u=window.__resources[id];
+      if(el && u) el.setAttribute('src', u);
+    });
+    return true;
+  }
+  if(!applyRes()){
+    var n=0, t=setInterval(function(){ if(applyRes()||++n>120) clearInterval(t); },50);
+  }
+})();
+</script>
+<script>
+/* agenda quick-nav */
+document.addEventListener('click', e=>{
+  const a = e.target.closest('[data-go]');
+  if(a){ const d=document.querySelector('deck-stage'); if(d) d.goTo(+a.dataset.go); return; }
+  const f = e.target.closest('.flip');
+  if(f){ f.classList.toggle('flipped'); }
+});
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#16171d">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#16171d"/>
+    <g fill="none" stroke="#ff7c1a" stroke-width="9" stroke-linecap="round" opacity="0.9">
+      <line x1="270" y1="250" x2="600" y2="400"/>
+      <line x1="270" y1="550" x2="600" y2="400"/>
+      <line x1="930" y1="250" x2="600" y2="400"/>
+      <line x1="930" y1="550" x2="600" y2="400"/>
+    </g>
+    <g fill="#5e6675">
+      <circle cx="270" cy="250" r="26"/><circle cx="270" cy="550" r="26"/>
+      <circle cx="930" cy="250" r="26"/><circle cx="930" cy="550" r="26"/>
+    </g>
+    <circle cx="600" cy="400" r="76" fill="#ff7c1a"/>
+    <text x="600" y="430" text-anchor="middle" font-family="system-ui,sans-serif" font-size="62" font-weight="800" fill="#16171d">大</text>
+    <text x="600" y="690" text-anchor="middle" font-family="system-ui,sans-serif" font-size="46" font-weight="700" fill="#f5f5f5" letter-spacing="6">大聚合時代</text>
+  </svg>
+</template>
+</body>
+</html>
