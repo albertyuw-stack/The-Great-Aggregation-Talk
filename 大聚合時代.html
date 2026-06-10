@@ -287,6 +287,15 @@ image-slot{display:block;background:var(--surface-2);}
 .j-logo{width:60px;height:60px;border-radius:15px;background:#fff;border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05);margin-bottom:22px;}
 .j-logo img{width:38px;height:38px;object-fit:contain;display:block;}
+/* monogram fallback — shows when the live favicon can't load (offline standalone) */
+.tool-logo,.flip-logo,.j-logo{position:relative;}
+.tool-logo::after,.flip-logo::after,.j-logo::after{
+  content:attr(data-mono);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-sans);font-weight:800;letter-spacing:-.02em;color:#fff;background:var(--mc,#222);
+  opacity:0;pointer-events:none;border-radius:inherit;}
+.tool-logo::after,.flip-logo::after{font-size:23px;}
+.j-logo::after{font-size:27px;}
+.tool-logo.noimg::after,.flip-logo.noimg::after,.j-logo.noimg::after{opacity:1;}
 .flip-role{font-size:18px;font-weight:600;color:var(--accent);letter-spacing:.03em;margin:8px 0 0;text-transform:uppercase;}
 .flip-blurb{font-size:21px;line-height:1.45;color:var(--fg-muted);margin:18px 0 0;}
 .flip-hint{margin-top:auto;font-size:17px;font-weight:600;color:var(--fg-subtle);display:flex;align-items:center;gap:8px;}
@@ -295,6 +304,12 @@ image-slot{display:block;background:var(--surface-2);}
 .pc-row.pro .ic{background:color-mix(in oklab,var(--success) 28%,transparent);color:oklch(88% 0.15 158);}
 .pc-row.con .ic{background:color-mix(in oklab,var(--danger) 30%,transparent);color:oklch(85% 0.12 20);}
 .flip-label{font-size:16px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--d-fg-muted);margin:0 0 4px;}
+/* ============ GPA EXAMPLE BLOCK ============ */
+.ex-label{font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;}
+.ex-body{font-size:20px;line-height:1.45;margin:0;color:var(--fg-muted);
+  background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;}
+.ex-code{font-family:var(--font-mono);font-size:.86em;font-weight:600;color:var(--accent-deep);
+  background:var(--accent-soft);border-radius:6px;padding:1px 7px;white-space:nowrap;}
 
 /* ============ NODE DIAGRAM ============ */
 .agg-core{width:300px;height:300px;border-radius:50%;display:grid;place-items:center;text-align:center;
@@ -368,28 +383,28 @@ deck-stage::part(stage){background:#0a0a0c;}
     <h1 class="title reveal" style="--d:.06s;margin-top:22px;">18 年的 UX 實踐旅程</h1>
     <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:54px;">
       <div class="hcard reveal" style="--d:.12s;display:flex;flex-direction:column;">
-        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="j-logo" data-mono="in" style="--mc:#0A66C2"><img onerror="var t=this.closest('.j-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
         <div class="h-tag">'09 — '14</div>
         <div class="h-name" style="font-size:42px;">LinkedIn</div>
         <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">資深產品設計師<br><span class="en muted">Senior PD</span></div>
         <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">主導首頁、搜尋功能、使用者成長與聯絡人系統。</div>
       </div>
       <div class="hcard reveal" style="--d:.2s;display:flex;flex-direction:column;">
-        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=inkling.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="j-logo" data-mono="I" style="--mc:#F25F4C"><img onerror="var t=this.closest('.j-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=inkling.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
         <div class="h-tag">'14 — '16</div>
         <div class="h-name" style="font-size:42px;">Inkling</div>
         <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">首席產品設計主導<br><span class="en muted">Principal PD Lead</span></div>
         <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">多媒體互動電子書與核心 CMS 內容創作平台。</div>
       </div>
       <div class="hcard reveal" style="--d:.28s;display:flex;flex-direction:column;">
-        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=bloomreach.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="j-logo" data-mono="b" style="--mc:#0B66FF"><img onerror="var t=this.closest('.j-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=bloomreach.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
         <div class="h-tag">'16 — '23</div>
         <div class="h-name" style="font-size:42px;">Bloomreach</div>
         <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">產品設計總監<br><span class="en muted">PD Director</span></div>
         <div style="font-size:24px;line-height:1.5;color:var(--fg-subtle);padding-top:24px;">跨國管理美、印、歐三地團隊；搜尋演算法與購物助理 Chatbot。</div>
       </div>
       <div class="hcard reveal" style="--d:.36s;display:flex;flex-direction:column;border-color:var(--accent);">
-        <div class="j-logo"><img src="https://www.google.com/s2/favicons?domain=observe.ai&sz=128" alt="" referrerpolicy="no-referrer"></div>
+        <div class="j-logo" data-mono="O" style="--mc:#00B3A4"><img onerror="var t=this.closest('.j-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=observe.ai&sz=128" alt="" referrerpolicy="no-referrer"></div>
         <div class="h-tag">'23 — '25</div>
         <div class="h-name" style="font-size:42px;">Observe.AI</div>
         <div style="font-size:var(--t-small);color:var(--fg-muted);margin-top:6px;">產品設計負責人<br><span class="en muted">Head of PD</span></div>
@@ -554,7 +569,7 @@ deck-stage::part(stage){background:#0a0a0c;}
         <span class="chip"><b style="color:var(--accent);">支柱一</b>&nbsp;研究與洞察</span>
         <span class="chip"><b style="color:var(--accent);">支柱二</b>&nbsp;氛圍設計</span>
         <span class="chip"><b style="color:var(--accent);">支柱三</b>&nbsp;創新護城河</span>
-        <span class="chip"><b style="color:var(--accent);">支柱四</b>&nbsp;代理評估</span>
+        <span class="chip"><b style="color:var(--accent);">支柱四</b>&nbsp;Agent 評估</span>
       </div>
     </div>
     <div class="kicker-foot">第二單元 / UNIT 02</div>
@@ -569,18 +584,18 @@ deck-stage::part(stage){background:#0a0a0c;}
       <div>
         <div class="cat-label reveal" style="--d:.12s">規模化招募與非同步訪談 · Scale Interviewing</div>
         <div class="card-grid" style="grid-template-columns:repeat(4,1fr);margin-top:14px;">
-          <div class="hcard reveal" style="--d:.16s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=userintuition.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">User Intuition</p></div><p class="h-tag">一條龍研究</p><p class="h-desc">整合 400 萬+ 真實使用者，打通「研究規劃 → 自動篩選招募 → 30+ 分鐘 AI 深度語音與文字訪談」。</p></div>
-          <div class="hcard reveal" style="--d:.22s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=listenlabs.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Listen Labs</p></div><p class="h-tag">無痛招募</p><p class="h-desc">免去繁瑣排程，非同步規模化觸及，讓質化訪談的招募不再是瓶頸。</p></div>
-          <div class="hcard reveal" style="--d:.28s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=koji.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Koji</p></div><p class="h-tag">免主持</p><p class="h-desc">免去人工主持，自動化大規模在線對話，釋放研究員的時間。</p></div>
-          <div class="hcard reveal" style="--d:.34s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=perspectiveai.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Perspective AI</p></div><p class="h-tag">追問為什麼</p><p class="h-desc">對數百位使用者同時展開 Adaptive Probing，針對模糊回答追問「為什麼」，突破產能極限。</p></div>
+          <div class="hcard reveal" style="--d:.16s"><div class="tool-head"><span class="tool-logo" data-mono="U" style="--mc:#3B5BDB"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=userintuition.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">User Intuition</p></div><p class="h-tag">一條龍研究</p><p class="h-desc">整合 400 萬+ 真實使用者，打通「研究規劃 → 自動篩選招募 → 30+ 分鐘 AI 深度語音與文字訪談」。</p></div>
+          <div class="hcard reveal" style="--d:.22s"><div class="tool-head"><span class="tool-logo" data-mono="L" style="--mc:#2D2D2D"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=listenlabs.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Listen Labs</p></div><p class="h-tag">無痛招募</p><p class="h-desc">簡化約時間的繁瑣，讓訪談的招募不再是瓶頸。</p></div>
+          <div class="hcard reveal" style="--d:.28s"><div class="tool-head"><span class="tool-logo" data-mono="K" style="--mc:#FF5A5F"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=koji.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Koji</p></div><p class="h-tag">免主持</p><p class="h-desc">減少直接訪談，自動化的大規模線上 Chat Bot。</p></div>
+          <div class="hcard reveal" style="--d:.34s"><div class="tool-head"><span class="tool-logo" data-mono="P" style="--mc:#7048E8"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=perspectiveai.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Perspective AI</p></div><p class="h-tag">追問為什麼</p><p class="h-desc">對數百位使用者同時展開 Adaptive Probing，針對模糊的回答去追問「為什麼」。</p></div>
         </div>
       </div>
       <div>
-        <div class="cat-label reveal" style="--d:.3s">全時段非結構化資料深層分析 · Unstructured Analysis</div>
+        <div class="cat-label reveal" style="--d:.3s">非結構化資料深層分析 · Unstructured Data Analysis</div>
         <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:14px;">
-          <div class="hcard reveal" style="--d:.34s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=dovetail.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Dovetail</p></div><p class="h-tag">主題叢集</p><p class="h-desc">將客服通話、會議逐字稿、回饋與工單集中，透過 AI Thematic Clustering 快速收斂主要痛點。</p></div>
-          <div class="hcard reveal" style="--d:.4s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=coloop.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">CoLoop</p></div><p class="h-tag">質化收斂</p><p class="h-desc">把零散質化資料變成可分析的洞察集合，加速從資料到結論的旅程。</p></div>
-          <div class="hcard reveal" style="--d:.46s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=enterpret.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Enterpret</p></div><p class="h-tag">資料流治理</p><p class="h-desc">直串 50+ 外部管道（Zendesk、Salesforce、Reddit），以 Adaptive Taxonomy 自動解構，並連結營收與流失訊號。</p></div>
+          <div class="hcard reveal" style="--d:.34s"><div class="tool-head"><span class="tool-logo" data-mono="D" style="--mc:#4263EB"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=dovetail.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Dovetail</p></div><p class="h-tag">主題叢集</p><p class="h-desc">將客服通話、會議逐字稿、回饋與 Jira ticket 集中，透過 AI Thematic Clustering 快速收斂主要痛點。</p></div>
+          <div class="hcard reveal" style="--d:.4s"><div class="tool-head"><span class="tool-logo" data-mono="C" style="--mc:#12B886"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=coloop.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">CoLoop</p></div><p class="h-tag">質化收斂</p><p class="h-desc">把零散質化資料變成可分析的洞察集合，加速從資料到結論的旅程。</p></div>
+          <div class="hcard reveal" style="--d:.46s"><div class="tool-head"><span class="tool-logo" data-mono="E" style="--mc:#6741D9"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=enterpret.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Enterpret</p></div><p class="h-tag">資料流治理</p><p class="h-desc">直串 50+ 外部管道（Zendesk、Salesforce、Reddit），以 Adaptive Taxonomy 自動解構，並連結營收與流失訊號。</p></div>
         </div>
       </div>
     </div>
@@ -593,10 +608,10 @@ deck-stage::part(stage){background:#0a0a0c;}
     <h1 class="title reveal" style="--d:.06s;margin-top:18px;font-size:56px;">精準探勘：數據背後的「為什麼」</h1>
     <p class="reveal muted" style="--d:.1s;font-size:23px;margin:14px 0 0;">從 No-code 行為診斷，到 AI 時代的 MCP 架構，分析直接串接決策。</p>
     <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:center;margin-top:24px;">
-      <div class="hcard reveal" style="--d:.16s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=fullstory.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Fullstory</p></div><p class="h-tag">免埋點診斷</p><p class="h-desc">StoryAI 自動偵測「憤怒點擊」「無效點擊」等挫折訊號，用自然語言還原流失原因並重播 session。</p></div>
-      <div class="hcard reveal" style="--d:.24s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=pendo.io&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Pendo</p></div><p class="h-tag">白話漏斗</p><p class="h-desc">AI 助手 Leo 用白話文回答漏斗與留存；自動生成偵測規則，監控使用者與 AI 機器人的對話健康度。</p></div>
-      <div class="hcard reveal" style="--d:.32s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=mixpanel.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Mixpanel</p></div><p class="h-tag">MCP 首創</p><p class="h-desc">Spark AI 主動探尋「為什麼」，將 AI 輸出狀態納入指標；首創 MCP 伺服器，讓 Cursor／Claude 直接查詢分析。</p></div>
-      <div class="hcard reveal" style="--d:.4s"><div class="tool-head"><span class="tool-logo"><img src="https://www.google.com/s2/favicons?domain=amplitude.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Amplitude</p></div><p class="h-tag">分析閉環</p><p class="h-desc">Compass 自動發掘預測留存的「Aha! Moment」；內建 Predictive Cohorts 與 Experiment，分析直連 A/B 測試。</p></div>
+      <div class="hcard reveal" style="--d:.16s"><div class="tool-head"><span class="tool-logo" data-mono="F" style="--mc:#2E3A8C"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=fullstory.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Fullstory</p></div><p class="h-tag">免埋點診斷</p><p class="h-desc">StoryAI 自動偵測「憤怒點擊」「無效點擊」等挫折訊號，用自然語言還原流失原因並重播 session。</p></div>
+      <div class="hcard reveal" style="--d:.24s"><div class="tool-head"><span class="tool-logo" data-mono="P" style="--mc:#EC2B7F"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=pendo.io&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Pendo</p></div><p class="h-tag">白話漏斗</p><p class="h-desc">AI 助手 Leo 用白話文回答漏斗與留存；自動生成偵測規則，監控使用者與 AI 機器人的對話健康度。</p></div>
+      <div class="hcard reveal" style="--d:.32s"><div class="tool-head"><span class="tool-logo" data-mono="M" style="--mc:#7856FF"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=mixpanel.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Mixpanel</p></div><p class="h-tag">MCP 首創</p><p class="h-desc">Spark AI 主動探尋「為什麼」，將 AI 輸出狀態納入指標；首創 MCP 伺服器，讓 Cursor／Claude 直接查詢分析。</p></div>
+      <div class="hcard reveal" style="--d:.4s"><div class="tool-head"><span class="tool-logo" data-mono="A" style="--mc:#1E61F0"><img onerror="var t=this.closest('.tool-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=amplitude.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="h-name">Amplitude</p></div><p class="h-tag">分析閉環</p><p class="h-desc">Compass 自動發掘預測留存的「Aha! Moment」；內建 Predictive Cohorts 與 Experiment，分析直連 A/B 測試。</p></div>
     </div>
     <div class="slide-no">11</div>
   </section>
@@ -618,7 +633,7 @@ deck-stage::part(stage){background:#0a0a0c;}
             <div style="font-size:20px;color:var(--accent);margin-top:4px;">Vibe Design</div>
           </div>
         </div>
-        <p class="reveal lead" style="--d:.28s;font-size:30px;line-height:1.55;">設計師引導內建<b>設計系統、無障礙規範與使用者情境</b>的 AI 代理直接生成 UI——產出即是<span class="accent" style="font-weight:700;">可直接上線的前端程式碼</span>。</p>
+        <p class="reveal lead" style="--d:.28s;font-size:30px;line-height:1.55;">設計師引導內建<b>設計系統、無障礙規範與使用者情境</b>的 AI Agent 直接生成 UI——產出即是<span class="accent" style="font-weight:700;">可直接上線的前端程式碼</span>。</p>
         <p class="reveal" style="--d:.38s;font-size:26px;color:var(--fg-muted);">畫布與真實瀏覽器環境之間的鴻溝，就此消失。</p>
       </div>
       <div class="reveal scaleIn" style="--d:.3s;background:var(--d-bg);color:var(--d-fg);border-radius:26px;padding:44px 46px;position:relative;overflow:hidden;">
@@ -641,43 +656,43 @@ deck-stage::part(stage){background:#0a0a0c;}
     <div class="flip-grid reveal" style="--d:.14s;grid-template-columns:repeat(4,1fr);grid-auto-rows:348px;margin-top:22px;">
       <!-- Claude Design -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Claude Design</p></div><p class="flip-role">2026 最強黑馬</p><p class="flip-blurb">讀取你的 GitHub 程式庫，繼承既有品牌設計系統與元件，徹底告別 generic AI 美學。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="C" style="--mc:#D97757"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Claude Design</p></div><p class="flip-role">2026 最強黑馬</p><p class="flip-blurb">讀取你的 GitHub 程式庫，繼承既有品牌設計系統與元件，徹底告別 generic AI 美學。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>程式庫原生整合，繼承品牌設計系統</span></div><div class="pc-row pro"><span class="ic">+</span><span>HTML 意圖打包，直接對接 Claude Code 部署</span></div><div class="pc-row pro"><span class="ic">+</span><span>inline 註記、語音命令、live sliders 微調</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>研究預覽；直接編輯會被下次 prompt 洗掉，無歷史回溯</span></div></div>
       </div></div>
       <!-- Lovable -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=lovable.dev&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Lovable</p></div><p class="flip-role">設計導向驗證神器</p><p class="flip-blurb">生成極致美觀的 React + Tailwind UI，整合 Supabase 處理資料庫與會員驗證。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="L" style="--mc:#FF4D6D"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=lovable.dev&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Lovable</p></div><p class="flip-role">設計導向驗證神器</p><p class="flip-blurb">生成極致美觀的 React + Tailwind UI，整合 Supabase 處理資料庫與會員驗證。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>極致美觀的 React + Tailwind UI</span></div><div class="pc-row pro"><span class="ic">+</span><span>整合 Supabase，一鍵部署與 GitHub 同步</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>僅支援 React</span></div><div class="pc-row con"><span class="ic">−</span><span>安全架構／RLS／支付邏輯脆弱，需人工審查</span></div></div>
       </div></div>
       <!-- Bolt.new -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=bolt.new&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Bolt.new</p></div><p class="flip-role">瀏覽器內原型專家</p><p class="flip-blurb">透過 WebContainers 完全在瀏覽器內運行，免去繁瑣的本機開發環境設定。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="B" style="--mc:#2B7FFF"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=bolt.new&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Bolt.new</p></div><p class="flip-role">瀏覽器內原型專家</p><p class="flip-blurb">透過 WebContainers 完全在瀏覽器內運行，免去繁瑣的本機開發環境設定。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>全瀏覽器內運行，免本機環境</span></div><div class="pc-row pro"><span class="ic">+</span><span>支援 React／Vue／Svelte／Astro</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>代碼品質與安全性不足以直接上線</span></div><div class="pc-row con"><span class="ic">−</span><span>修大型專案 Bug 時 Token 消耗極大</span></div></div>
       </div></div>
       <!-- Replit Agent -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=replit.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Replit Agent</p></div><p class="flip-role">全端自主代理</p><p class="flip-blurb">主動澄清模糊語意，自主端到端開發與除錯，產出可在生產環境運行的 SaaS。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="R" style="--mc:#F26207"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=replit.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Replit Agent</p></div><p class="flip-role">全端自主 Agent</p><p class="flip-blurb">主動澄清模糊語意，自主端到端開發與除錯，產出可在生產環境運行的 SaaS。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>強架構規劃力，前期主動澄清</span></div><div class="pc-row pro"><span class="ic">+</span><span>自主開發 200 分鐘，自我除錯反射迴圈</span></div><div class="pc-row pro"><span class="ic">+</span><span>全能代管：IDE＋DB＋30+ 連接器</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>設計美感偏低、門檻高、計費不透明</span></div></div>
       </div></div>
       <!-- Google Stitch -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=stitch.withgoogle.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Google Stitch</p></div><p class="flip-role">語音意圖與即時探索</p><p class="flip-blurb">Voice Canvas 語音即時渲染與設計對談，支援 multi-screen 自動流生成。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="S" style="--mc:#4285F4"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=stitch.withgoogle.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Google Stitch</p></div><p class="flip-role">語音意圖與即時探索</p><p class="flip-blurb">Voice Canvas 語音即時渲染與設計對談，支援 multi-screen 自動流生成。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>Voice Canvas 語音即時渲染</span></div><div class="pc-row pro"><span class="ic">+</span><span>multi-screen 自動流＋Figma 雙向；免費 350 次／月</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>偏單人探索，缺多人協作與企業級版控</span></div></div>
       </div></div>
       <!-- Vercel v0 -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=v0.dev&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Vercel v0</p></div><p class="flip-role">生產級前端元件</p><p class="flip-blurb">生成符合工業標準、內建無障礙與安全掃描的 React 元件（基於 shadcn/ui）。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="v0" style="--mc:#111111"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=v0.dev&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Vercel v0</p></div><p class="flip-role">生產級前端元件</p><p class="flip-blurb">生成符合工業標準、內建無障礙與安全掃描的 React 元件（基於 shadcn/ui）。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>工業標準、內建 a11y 與安全掃描</span></div><div class="pc-row pro"><span class="ic">+</span><span>可安全部署上線</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>高度侷限前端元件，無後端與資料庫支援</span></div></div>
       </div></div>
       <!-- Cursor -->
       <div class="flip"><div class="flip-inner">
-        <div class="flip-face"><div class="flip-top"><span class="flip-logo"><img src="https://www.google.com/s2/favicons?domain=cursor.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Cursor</p></div><p class="flip-role">開發者戰力放大器</p><p class="flip-blurb">AI 原生編輯器，對全域 codebase 理解深，保留人類對底層安全與架構的控制權。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
+        <div class="flip-face"><div class="flip-top"><span class="flip-logo" data-mono="C" style="--mc:#111111"><img onerror="var t=this.closest('.flip-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=cursor.com&sz=128" alt="" referrerpolicy="no-referrer"></span><p class="flip-name">Cursor</p></div><p class="flip-role">開發者戰力放大器</p><p class="flip-blurb">AI 原生編輯器，對全域 codebase 理解深，保留人類對底層安全與架構的控制權。</p><div class="flip-hint">懸停看優缺點 ↻</div></div>
         <div class="flip-face flip-back"><p class="flip-label">Pros</p><div class="pc-row pro"><span class="ic">+</span><span>深度 codebase 理解，Composer 多檔同步</span></div><div class="pc-row pro"><span class="ic">+</span><span>保留人類對架構的極致控制</span></div><p class="flip-label" style="margin-top:18px;">Cons</p><div class="pc-row con"><span class="ic">−</span><span>無視覺化即時預覽</span></div><div class="pc-row con"><span class="ic">−</span><span>要求傳統前端工程背景</span></div></div>
       </div></div>
       <!-- legend cell -->
       <div style="border:1px dashed var(--border-2);border-radius:24px;padding:28px 30px;display:flex;flex-direction:column;justify-content:center;gap:14px;background:var(--surface-2);">
-        <div style="font-size:24px;font-weight:800;">選型心法</div>
-        <div style="font-size:20px;line-height:1.5;color:var(--fg-muted);">驗證看 <b style="color:var(--fg);">Lovable</b>／<b style="color:var(--fg);">Stitch</b>；上線看 <b style="color:var(--fg);">Replit</b>／<b style="color:var(--fg);">v0</b>；掌控看 <b style="color:var(--fg);">Cursor</b>；繼承品牌看 <b style="color:var(--accent);">Claude Design</b>。</div>
+        <div style="font-size:24px;font-weight:800;">如何選擇</div>
+        <div style="font-size:20px;line-height:1.6;color:var(--fg-muted);">快速驗證與發想 <b style="color:var(--fg);">Lovable</b>／<b style="color:var(--fg);">Stitch</b>；小 App 上線 <b style="color:var(--fg);">Replit</b>、前端上線 <b style="color:var(--fg);">v0</b>；工程接軌 <b style="color:var(--fg);">Cursor</b>；Design System 定義穩 <b style="color:var(--accent);">Claude Design</b>。</div>
       </div>
     </div>
     <div class="slide-no">13</div>
@@ -720,15 +735,15 @@ deck-stage::part(stage){background:#0a0a0c;}
 
   <!-- 15 · 支柱四 三維聯防 -->
   <section class="slide" data-label="Eval 3D">
-    <p class="eyebrow reveal">支柱四 · 代理評估 — Agent Eval</p>
+    <p class="eyebrow reveal">支柱四 · Agent 評估 — Agent Eval</p>
     <h1 class="title reveal" style="--d:.06s;margin-top:18px;">產品三劍客的 Eval 三維聯防</h1>
-    <p class="reveal muted" style="--d:.1s;font-size:23px;margin:14px 0 0;">AI 代理是非確定性系統——單次正確性檢查無意義，必須量測「系統行為」。</p>
+    <p class="reveal muted" style="--d:.1s;font-size:23px;margin:14px 0 0;">AI Agent 是非確定性系統——單次正確性檢查無意義，必須量測「系統行為」。</p>
     <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:center;margin-top:20px;">
       <div class="hcard reveal" style="--d:.18s;border-top:4px solid var(--accent);">
         <p class="h-tag" style="margin-bottom:6px;">研究員 · UXR</p>
         <p class="h-name" style="font-size:38px;">黃金與白銀資料集</p>
         <p style="font-size:20px;color:var(--fg-subtle);font-weight:600;margin:2px 0 16px;">Gold &amp; Silver Sets</p>
-        <p style="font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;">由主題專家 (SMEs) 從頭建構真實痛點、邊界條件與已知惡意輸入，作為代理評估的 <b style="color:var(--fg);">Ground Truth</b>。</p>
+        <p style="font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;">由主題專家 (SMEs) 從頭建構真實痛點、邊界條件與已知惡意輸入，作為 Agent 評估的 <b style="color:var(--fg);">Ground Truth</b>。</p>
       </div>
       <div class="hcard reveal" style="--d:.28s;border-top:4px solid var(--accent);">
         <p class="h-tag" style="margin-bottom:6px;">設計師 · Designer</p>
@@ -749,28 +764,33 @@ deck-stage::part(stage){background:#0a0a0c;}
   <!-- 16 · GPA 框架 + 溫針 -->
   <section class="slide" data-label="GPA Framework">
     <p class="eyebrow reveal">支柱四 · 雪花實驗室 — The GPA Framework</p>
-    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">Goal · Plan · Action：拆解代理的每一步</h1>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:36px;">
-      <div class="reveal" style="--d:.18s;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
+    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">Goal · Plan · Action：拆解 Agent 的每一步</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:22px;margin:12px 0 0;">範例情境 · 客服退款 Agent：使用者說「我上週買的耳機還沒到貨，我要退款。」</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:28px;">
+      <div class="reveal" style="--d:.18s;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 32px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
         <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">G</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Goal · 目標</span></div>
-        <p style="font-size:23px;line-height:1.5;margin:16px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Answer Correctness &amp; Relevance</b>——最終回答是否契合使用者意圖、具事實正確性，並由檢索資料支持 (Groundedness)。</p>
+        <p style="font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Answer Correctness &amp; Relevance</b>——最終回答是否契合使用者意圖、具事實正確性，並由檢索資料支持 (Groundedness)。</p>
+        <div style="margin-top:auto;padding-top:18px;">
+          <div class="ex-label">實際範例</div>
+          <p class="ex-body">回覆「訂單 <span class="ex-code">#4821</span> 已退款 <b style="color:var(--fg);">NT$1,890</b>，3–5 個工作日退回原卡」——金額正確、貼合意圖，且有訂單記錄佐證。</p>
+        </div>
       </div>
-      <div class="reveal" style="--d:.28s;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
+      <div class="reveal" style="--d:.28s;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 32px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
         <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">P</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Plan · 規劃</span></div>
-        <p style="font-size:23px;line-height:1.5;margin:16px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Quality &amp; Tool Selection</b>——代理是否設計出合理的 Roadmap，並精確進行工具選擇。</p>
+        <p style="font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Quality &amp; Tool Selection</b>——Agent 是否設計出合理的 Roadmap，並精確進行工具選擇。</p>
+        <div style="margin-top:auto;padding-top:18px;">
+          <div class="ex-label">實際範例</div>
+          <p class="ex-body">規劃 4 步並選對工具：<span class="ex-code">lookup_order</span> → <span class="ex-code">check_refund_policy</span> → <span class="ex-code">issue_refund</span> → <span class="ex-code">send_email</span>。</p>
+        </div>
       </div>
-      <div class="reveal" style="--d:.38s;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
+      <div class="reveal" style="--d:.38s;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 32px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
         <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">A</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Action · 行動</span></div>
-        <p style="font-size:23px;line-height:1.5;margin:16px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Adherence &amp; Tool Calling</b>——是否確實執行步驟、參數正確，無死循環、未授權調用或幻覺外部服務。</p>
+        <p style="font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Adherence &amp; Tool Calling</b>——是否確實執行步驟、參數正確，無死循環、未授權調用或幻覺外部服務。</p>
+        <div style="margin-top:auto;padding-top:18px;">
+          <div class="ex-label">實際範例</div>
+          <p class="ex-body">執行 <span class="ex-code">issue_refund(id="#4821", amt=1890)</span>，參數正確、僅退款一次，未越權讀取付款資料。</p>
+        </div>
       </div>
-    </div>
-    <div class="reveal" style="--d:.48s;background:var(--d-bg);color:var(--d-fg);border-radius:22px;padding:30px 38px;margin-top:30px;display:flex;gap:30px;align-items:center;">
-      <div style="flex:none;text-align:center;">
-        <div style="font-size:58px;font-weight:900;color:var(--accent);line-height:1;">55–65°</div>
-        <div style="font-size:18px;color:var(--d-fg-muted);margin-top:6px;">殺菌且鮮嫩的平衡</div>
-      </div>
-      <div style="width:1px;align-self:stretch;background:var(--d-border);"></div>
-      <p style="font-size:24px;line-height:1.5;margin:0;color:var(--d-fg-muted);"><b style="color:var(--d-fg);">溫針的「光明燈塔」心態：</b>不盲目迷信 73° 的過熟安全溫度，用評估迴圈精準抓出完美平衡。避免過度依賴 <b style="color:var(--d-fg);">LLM-as-a-Judge</b>——它只能做快速 pattern 偵測，不可用於最終決策。</p>
     </div>
     <div class="slide-no">16</div>
   </section>
@@ -874,11 +894,11 @@ deck-stage::part(stage){background:#0a0a0c;}
         <div class="reveal" style="--d:.28s;font-size:24px;font-weight:700;letter-spacing:.04em;color:var(--d-fg-muted);margin-bottom:22px;">就業市場無情的一分為二</div>
         <div class="reveal" style="--d:.36s;background:var(--d-surface);border:1px solid var(--d-border);border-radius:22px;padding:30px 34px;border-left:5px solid var(--accent);">
           <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:48px;font-weight:900;color:var(--accent);">60%</span><span style="font-size:27px;font-weight:800;">疲憊的「打造者階層」</span></div>
-          <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:10px 0 0;">編排、管理與調校 AI 代理，承受高強度認知負載並持續創造價值。</p>
+          <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:10px 0 0;">編排、管理與調校 AI Agent，承受高強度認知負載並持續創造價值。</p>
         </div>
         <div class="reveal" style="--d:.46s;background:var(--d-surface);border:1px solid var(--d-border);border-radius:22px;padding:30px 34px;border-left:5px solid var(--danger);margin-top:20px;">
           <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:48px;font-weight:900;color:var(--danger);">40%</span><span style="font-size:27px;font-weight:800;">被管理的「邊緣化階層」</span></div>
-          <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:10px 0 0;">被 AI 代理指派任務、監控並稽核，隨時面臨被完全自動化取代。</p>
+          <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:10px 0 0;">被 AI Agent 指派任務、監控並稽核，隨時面臨被完全自動化取代。</p>
         </div>
       </div>
     </div>
@@ -909,7 +929,7 @@ deck-stage::part(stage){background:#0a0a0c;}
     </div>
     <div class="reveal" style="--d:.42s;margin-top:28px;background:linear-gradient(120deg,color-mix(in oklab,var(--accent) 22%,var(--d-surface)),var(--d-surface));border:1px solid color-mix(in oklab,var(--accent) 35%,transparent);border-radius:20px;padding:24px 34px;display:flex;align-items:center;gap:26px;">
       <div style="font-size:24px;font-weight:900;color:var(--accent);white-space:nowrap;">2026 — 2030</div>
-      <p style="font-size:24px;line-height:1.45;margin:0;">關鍵決擇窗口將徹底決定文明走向，核心只有一個問題：<b>AI 代理，控制在誰的手中？</b></p>
+      <p style="font-size:24px;line-height:1.45;margin:0;">關鍵決擇窗口將徹底決定文明走向，核心只有一個問題：<b>AI Agent，控制在誰的手中？</b></p>
     </div>
     <div class="slide-no">22</div>
   </section>
@@ -983,20 +1003,20 @@ deck-stage::part(stage){background:#0a0a0c;}
 "為什麼會這樣？因為「交接」這件事，正在消失。過去從思考——也就是研究跟設計——到執行也就是前端，中間有一道摩擦力，需要溝通、需要 handoff。AI 把這道摩擦力瞬間撫平了。我講白一點：如果你的工作價值，只是當兩個角色之間的「溝通橋樑」，那這座橋，正在被一台瞬間移動裝置取代。橋還在不在不重要了，因為大家可以直接傳送過去。",
 "那誰來吃下這些被釋放出來的工作？第一波，是 PM。PM 透過 AI 工具，一個人就能跑完市場研究、設計原型、使用者驗證，直接產出一個能動的雛形。他成了「聚合核心」，把周邊的專才一個個吸收進來。但這裡有個「但是」——速度是有了，可是他往往失去了那些被他吸收掉的專才，原本具備的深度工藝跟美學。快，不等於好。",
 "於是我們進入了一個我稱為「AI 廢料時代」的階段。所謂 AI 廢料，就是那種同質性極高、缺乏靈魂、沒有深度工藝的機器生成內容跟介面。PM 能快速做出功能齊全的產品，卻是一坨 slop。那解答是什麼？不是更快的「AI 增強型 PM」，而是要往上跳一層——成為融合美學、工程與同理心的「產品打造者」。這就是接下來整個第二單元要拆解的東西。",
-"第二單元，產品打造者的框架。我把它拆成四根支柱：研究與洞察、氛圍設計、創新護城河、還有代理評估。這四根柱子，撐起一個人就能做完整個產品的能力。我們一根一根來看。",
+"第二單元，產品打造者的框架。我把它拆成四根支柱：研究與洞察、氛圍設計、創新護城河、還有 Agent 評估。這四根柱子，撐起一個人就能做完整個產品的能力。我們一根一根來看。",
 "支柱一的前半，是質化研究。過去質化研究最大的瓶頸是「規模」——你一天能訪談幾個人？現在 AI 把這個天花板掀了。像 User Intuition、Listen Labs，能整合四百萬以上的真實使用者，從研究規劃、自動招募，到三十分鐘以上的 AI 深度訪談，一條龍跑完。Perspective AI 更狠，能同時對上百人做 adaptive probing，針對模糊回答追問「為什麼」。下面這排——Dovetail、CoLoop、Enterpret——則是把客服通話、逐字稿、工單這些零散資料，自動叢集成痛點。大家可以滑過卡片看細節。",
 "支柱一的後半，是量化洞察。如果說質化是問「為什麼」，量化就是用數據精準探勘那個為什麼。Fullstory 免埋點，自動抓「憤怒點擊」「無效點擊」這些挫折訊號。Pendo 讓你用白話文問漏斗。Mixpanel 最關鍵——它首創了 MCP 伺服器，讓 Cursor 或 Claude 這種 agent 直接呼叫產品分析資料。Amplitude 則把分析直接串到 A/B 測試，形成閉環。重點是：資料分析不再是一份報告，而是能直接驅動決策的即時對話。",
-"支柱二，氛圍設計。Karpathy 講過一句話：開發者不再手動寫每一行程式碼，而是透過高層次的「意圖引導」讓 AI 實作。我們設計師也一樣，正在從「調整像素」轉向「氛圍設計」——你引導一個內建了設計系統、無障礙規範、使用者情境的 AI 代理，直接生成 UI。而且產出的，就是可以直接上線的前端程式碼。畫布跟真實瀏覽器之間的那道鴻溝，消失了。",
+"支柱二，氛圍設計。Karpathy 講過一句話：開發者不再手動寫每一行程式碼，而是透過高層次的「意圖引導」讓 AI 實作。我們設計師也一樣，正在從「調整像素」轉向「氛圍設計」——你引導一個內建了設計系統、無障礙規範、使用者情境的 AI Agent，直接生成 UI。而且產出的，就是可以直接上線的前端程式碼。畫布跟真實瀏覽器之間的那道鴻溝，消失了。",
 "接下來這張，是我自己花最多時間實測的。2026 年主流的氛圍設計工具，我把它們一張張翻面，比較優缺點。簡單講：要快速驗證設計，看 Lovable 跟 Google Stitch；要真的上線、要後端，看 Replit Agent 跟 Vercel v0；要保留對架構的極致控制，看 Cursor；而如果你想讓產出繼承你既有的品牌設計系統、徹底擺脫 generic AI 美學，2026 最強的黑馬是 Claude Design。大家可以滑過每張卡，背面是它們各自的痛點。沒有一個工具是萬能的，重點是知道什麼場景用什麼。",
 "支柱三，是我認為最重要的——創新的護城河。我叫它九十比十法則。百分之九十的常用型 UI，表單、清單、設定頁，交給 AI 去編譯生成，不要再消耗你的心力。但剩下那百分之十——我稱為 magical experience——你要把百分之百的手動精力，全部灌注在這裡。這是 AI 複製不來的產品靈魂，是你的護城河。延伸下去就是 generative UI：介面不再是預先排好的靜態版面，而是根據使用者當下意圖即時組裝的。設計師的角色，變成設計一個「UI 工具箱」，供 AI 在互動時精準呼叫。",
-"支柱四，代理評估。這是大家最容易忽略、卻最致命的一塊。AI 代理是非確定性系統，你檢查它「一次」答對了，沒有意義，你要量測的是它的「系統行為」。我推薦三維聯防：研究員建「黃金與白銀資料集」，由領域專家定義真實痛點跟惡意輸入，當作 ground truth；設計師主導「主觀感受量表」，定義清晰度、幫助性、語調這些體驗指標；PM 定義「運行限制邊界」，限制最大步數、token 預算跟超時，在 CI/CD 裡擋掉那些品質達標但成本失控的路徑。三個角色，三個維度，缺一不可。",
-"再給大家一個更細的框架，來自雪花實驗室，叫 GPA。Goal——最終答案對不對、跟使用者意圖契不契合、有沒有資料支撐。Plan——代理有沒有規劃出合理的路線、有沒有選對工具。Action——它有沒有真的照做、參數對不對、有沒有死循環或幻覺。最後我想用一個比喻收尾：這就像溫針測肉，不要盲目迷信七十三度的過熟安全溫度，而是用評估迴圈，精準抓到五十五到六十五度那個又殺菌又鮮嫩的完美平衡。還有一句忠告：別過度依賴 LLM 當裁判，它只能做快速的 pattern 偵測，最終決策還是人來扛。",
+"支柱四，Agent 評估。這是大家最容易忽略、卻最致命的一塊。AI Agent 是非確定性系統，你檢查它「一次」答對了，沒有意義，你要量測的是它的「系統行為」。我推薦三維聯防：研究員建「黃金與白銀資料集」，由領域專家定義真實痛點跟惡意輸入，當作 ground truth；設計師主導「主觀感受量表」，定義清晰度、幫助性、語調這些體驗指標；PM 定義「運行限制邊界」，限制最大步數、token 預算跟超時，在 CI/CD 裡擋掉那些品質達標但成本失控的路徑。三個角色，三個維度，缺一不可。",
+"再給大家一個更細的框架，來自雪花實驗室，叫 GPA。Goal——最終答案對不對、跟使用者意圖契不契合、有沒有資料支撐。Plan——Agent 有沒有規劃出合理的路線、有沒有選對工具。Action——它有沒有真的照做、參數對不對、有沒有死循環或幻覺。最後我想用一個比喻收尾：這就像溫針測肉，不要盲目迷信七十三度的過熟安全溫度，而是用評估迴圈，精準抓到五十五到六十五度那個又殺菌又鮮嫩的完美平衡。還有一句忠告：別過度依賴 LLM 當裁判，它只能做快速的 pattern 偵測，最終決策還是人來扛。",
 "第三單元，角色轉型。前面講了框架，這一段我想直接面對在座的每一位——不管你現在是研究員、設計師、PM、還是工程師，你該怎麼變。",
 "先講好消息：你的超能力還在，只是要換個用法。研究員，升級成「真實資料治理者」，你的價值是稽核資料、防止模型崩塌，去找 AI 平均值會遺漏的那些「人類摩擦力」。設計師，升級成「DNA 架構師」，你定義產品的底層行為邏輯跟品牌美學核心，把人類情感嵌進系統。PM，升級成「誘因設計師」，不再交付功能，而是衡量系統性的影響力，擋下無意義的 AI 廢料。前端，升級成「可靠性層級」，你是 AI 程式碼的免疫系統。內核沒變，舞台變大了。",
 "但升級從來不是免費的，每個角色都有自己要跨的那道坎。研究員，不要害怕執行——去碰 vibe coding、terminal、jira，從一個提建議的人，變成真正 own 產品的人。設計師，天塌下來要扛——直接面對客戶跟市場，放棄完美主義，從 user center 轉向 impact center。PM，要補上科學化研究跟美感品味，看到醜的、難用的體驗，你要抓得出來，還要知道用什麼 prompt 改。前端，要補的是 user empathy——產品不是能動就好，你要去理解它為什麼會失敗。",
 "第四單元，AI 末日啟示錄。前面講的都是怎麼贏，這一段我想誠實地跟大家直視風險。這部分會比較沉重，但我覺得不能不講。",
 "先看一個冰冷的數字：四十趴。隨著白領知識工作的替代率上升、具身智慧成熟，社會正在邁向百分之四十的結構性失業。而歷史告訴我們，當失業率到了百分之二十到三十，國家的社會福利系統就已經在崩潰邊緣了。更殘酷的是，就業市場會無情地一分為二：百分之六十是疲憊的「打造者階層」，編排、管理、調校 AI，承受高強度的認知負載；另外百分之四十，是被管理的「邊緣化階層」，被 AI 指派任務、被監控稽核，隨時可能被完全自動化取代。你想站在哪一邊？",
-"那這條路會通往哪裡？我用兩部電影來比喻。劇本 A 是《瓦力》：政府跟資本家妥協，課 AI 稅、發全民基本收入，人類變成 AI 的寵物，活在電子托兒所跟短影片裡，歲月靜好，但失去了生命的自主跟目標。劇本 B 是《極樂世界》：科技精英壟斷 AI 跟資源，建立極權監管系統，少數人上太空，多數人在機器監控下勉強度日。決定我們走向哪個劇本的，是 2026 到 2030 這段黃金窗口。而核心問題只有一個：AI 代理，到底控制在誰的手裡。",
+"那這條路會通往哪裡？我用兩部電影來比喻。劇本 A 是《瓦力》：政府跟資本家妥協，課 AI 稅、發全民基本收入，人類變成 AI 的寵物，活在電子托兒所跟短影片裡，歲月靜好，但失去了生命的自主跟目標。劇本 B 是《極樂世界》：科技精英壟斷 AI 跟資源，建立極權監管系統，少數人上太空，多數人在機器監控下勉強度日。決定我們走向哪個劇本的，是 2026 到 2030 這段黃金窗口。而核心問題只有一個：AI Agent，到底控制在誰的手裡。",
 "那身為個人，怎麼在這個越來越「非人」的世界活下來？我給三條策略。第一，成為統計學上的「不規則者」——AI 的產出是歷史資料的機率分布，是平均值，你要活下來，就必須主動活在平均值之外。第二，全面掌控核心技術堆疊——用 Replit、Cursor、Framer 親手去建造，讓設計、工程、產品思維在你同一個大腦裡聚合。第三，主動注入「人類儀式感」的摩擦力——刻意保留有意圖的質感跟摩擦，拒絕被完全無縫的機器便利同化。簡單講：不要變成平均值，要掌握全棧，要保有人味。",
 "講到這裡，我想把整場濃縮成一句話：在一個產能無限的世界裡，唯一還保有價值的，是人類的意圖。「如何執行」這件事已經廉價到不行了——真正稀缺的，是「為什麼要建造這個東西」，以及「如何讓它跟人產生靈魂上的共鳴」。技術會一直變，但這個答案不會。",
 "最後我想說，大聚合時代並不是一個終局，它不是來毀滅我們的。它其實是在逼我們，褪去那些機械式的、重複的勞動，回歸到最純粹的直覺、同理心，跟創造的意圖裡面。專才不會消失，但他們會聚合成一種更完整的人。謝謝大家，我是 Albert，很期待跟各位交流。"
