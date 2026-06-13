@@ -201,6 +201,22 @@ b,strong{font-weight:700;}
 .agenda-card .ag-no{font-size:64px;font-weight:900;letter-spacing:-.03em;color:var(--accent);line-height:1;
   transition:transform .5s var(--ease);}
 .agenda-card:hover .ag-no{transform:scale(1.08) translateX(4px);}
+.agenda-card .ag-head{display:flex;align-items:center;justify-content:space-between;}
+.agenda-card .ag-ico{width:60px;height:60px;border-radius:16px;background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;flex:none;transition:transform .55s var(--ease);}
+.agenda-card .ag-ico svg{width:32px;height:32px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor;}
+.agenda-card:hover .ag-ico{transform:scale(1.1) rotate(-4deg);}
+.agenda-card .ag-art{margin-top:auto;display:flex;align-items:flex-end;justify-content:flex-end;padding-top:28px;
+  pointer-events:none;}
+.agenda-card .ag-art svg{width:150px;height:150px;color:var(--accent);opacity:.16;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor;
+  transition:opacity .55s var(--ease),transform .55s var(--ease);transform-origin:bottom right;}
+.agenda-card:hover .ag-art svg{opacity:.32;transform:scale(1.06);}
+.agenda-card .ag-head{display:flex;align-items:center;justify-content:space-between;}
+.agenda-card .ag-ico{width:60px;height:60px;border-radius:16px;background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;flex:none;transition:transform .55s var(--ease);}
+.agenda-card .ag-ico svg{width:32px;height:32px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor;}
+.agenda-card:hover .ag-ico{transform:scale(1.1) rotate(-4deg);}
 .agenda-card .ag-title{font-size:34px;font-weight:800;margin-top:26px;letter-spacing:-.01em;}
 .agenda-card .ag-en{font-size:24px;font-weight:600;color:var(--accent);letter-spacing:.03em;margin-top:8px;}
 .agenda-card .ag-desc{font-size:24px;line-height:1.5;color:var(--fg-muted);margin-top:20px;}
@@ -234,6 +250,74 @@ b,strong{font-weight:700;}
 .uc-tip-row{display:flex;align-items:center;gap:9px;padding:3px 0;}
 .uc-tip-l{font:500 18px var(--font-sans);color:var(--d-fg-muted);}
 .uc-tip-v{margin-left:auto;font:800 18px var(--font-sans);color:var(--d-fg);}
+
+/* ============ CONCEPT ICONS + PILLAR-2 LAYOUTS ============ */
+.icon-tile{width:64px;height:64px;border-radius:16px;background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;flex:none;}
+.icon-tile svg{width:32px;height:32px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor;}
+.icon-tile.lg{width:84px;height:84px;border-radius:22px;}
+.icon-tile.lg svg{width:42px;height:42px;}
+
+/* 14 — horizontal flow of steps with connectors */
+.flow{display:flex;align-items:stretch;gap:0;}
+.flow-step{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  padding:32px 30px 34px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(0,0,0,.04);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);}
+.flow-step:hover{transform:translateY(-8px);border-color:var(--accent);box-shadow:0 26px 50px -22px rgba(20,16,12,.26);}
+.flow-step .fs-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.flow-step .fs-num{font-size:40px;font-weight:900;color:var(--border-2);letter-spacing:-.02em;line-height:1;}
+.flow-conn{flex:none;width:64px;display:flex;align-items:center;justify-content:center;color:var(--accent);}
+.flow-conn svg{width:34px;height:34px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor;}
+.p2-name{font-size:32px;font-weight:800;letter-spacing:-.01em;margin:0;}
+.p2-en{font-size:19px;color:var(--fg-subtle);font-weight:600;margin:6px 0 16px;}
+.p2-desc{font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;}
+
+/* 15 — asymmetric: featured panel + stacked icon rows */
+.feature-panel{background:var(--d-bg);color:var(--d-fg);border-radius:28px;padding:48px 46px;
+  display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.feature-panel::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 80% at 80% 110%, color-mix(in oklab,var(--accent) 28%,transparent), transparent 55%);}
+.feature-panel > *{position:relative;z-index:1;}
+.irow{display:flex;align-items:center;gap:24px;background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;padding:24px 28px;box-shadow:0 1px 2px rgba(0,0,0,.04);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);}
+.irow:hover{transform:translateX(8px);border-color:var(--accent);box-shadow:0 22px 44px -22px rgba(20,16,12,.24);}
+.irow .ir-no{font-size:30px;font-weight:900;color:var(--border-2);letter-spacing:-.02em;flex:none;width:40px;}
+
+/* 16 — swimlanes (parallel tracks) */
+.lane{display:flex;align-items:center;gap:30px;background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;padding:26px 34px;position:relative;overflow:hidden;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);}
+.lane::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent);
+  transform:scaleY(0);transform-origin:center;transition:transform .5s var(--ease);}
+.lane:hover{transform:translateY(-6px);border-color:transparent;box-shadow:0 24px 48px -22px rgba(20,16,12,.26);}
+.lane:hover::before{transform:scaleY(1);}
+.lane .lane-track{position:absolute;right:34px;top:50%;width:160px;height:2px;opacity:.5;
+  background:repeating-linear-gradient(90deg,var(--border-2) 0 10px,transparent 10px 20px);}
+.lane .lane-body{flex:1;min-width:0;}
+.lane .lane-head{display:flex;align-items:baseline;gap:16px;}
+.lane .lane-tag{font-size:18px;font-weight:700;color:var(--accent);letter-spacing:.04em;flex:none;
+  font-family:var(--font-mono);background:var(--accent-soft);border-radius:8px;padding:4px 12px;}
+
+/* 19 — evaluation journey timeline */
+.journey{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.journey .j-rail{position:absolute;left:9%;right:9%;top:39px;height:2px;z-index:0;
+  background:repeating-linear-gradient(90deg,var(--border-2) 0 9px,transparent 9px 18px);}
+.jstep{position:relative;z-index:1;display:flex;flex-direction:column;}
+.jnode{width:80px;height:80px;border-radius:50%;background:var(--surface);border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:26px;
+  box-shadow:0 2px 10px rgba(20,16,12,.08);transition:transform .5s var(--ease);}
+.jnode svg{width:38px;height:38px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor;}
+.jstep:hover .jnode{transform:translateY(-4px);}
+.jstep.key .jnode{background:var(--accent);border-color:var(--accent);color:#fff;}
+.j-body{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:28px 28px 30px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);}
+.jstep:hover .j-body{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 46px -22px rgba(20,16,12,.24);}
+.jstep.key .j-body{background:linear-gradient(160deg,var(--accent-soft),var(--surface));border-color:color-mix(in oklab,var(--accent) 40%,transparent);}
+.j-tag{font-family:var(--font-mono);font-size:16px;font-weight:700;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;}
+.j-title{font-size:28px;font-weight:800;letter-spacing:-.01em;margin:10px 0 0;}
+.j-desc{font-size:20px;line-height:1.55;color:var(--fg-muted);margin:14px 0 0;}
+.j-desc b{color:var(--fg);}
 
 /* ============ IMAGE SLOTS ============ */
 image-slot{display:block;background:var(--surface-2);}
@@ -366,7 +450,7 @@ deck-stage::part(stage){background:#0a0a0c;}
       <h1 class="title reveal" style="--d:.12s;font-size:var(--t-display);margin-top:30px;letter-spacing:-.03em;">
         大聚合時代</h1>
       <p class="reveal" style="--d:.2s;font-size:var(--t-h2);font-weight:300;color:var(--d-fg-muted);margin:26px 0 0;line-height:1.3;">
-        從<b style="font-weight:700;color:var(--d-fg);">專才滅絕</b>到<span class="accent" style="font-weight:700;">「產品打造者」</span><span class="en muted" style="font-size:.7em;">Product Builder</span> 的興起</p>
+        從<b style="font-weight:700;color:var(--d-fg);">專才滅絕</b>到<span class="accent" style="font-weight:700;">「產品打造者」</span><span class="en muted" style="font-size:.84em;">Product Builder</span> 的興起</p>
     </div>
     <div class="reveal" style="--d:.34s;display:flex;align-items:center;gap:22px;border-top:1px solid var(--d-border);padding-top:34px;max-width:1010px;">
       <image-slot id="speaker-avatar" style="width:84px;height:84px" shape="circle" placeholder="頭像"></image-slot>
@@ -380,7 +464,7 @@ deck-stage::part(stage){background:#0a0a0c;}
   <!-- 02 · SPEAKER / 18 YEAR JOURNEY -->
   <section class="slide" data-label="Speaker">
     <p class="eyebrow reveal">18 Years in the Craft</p>
-    <h1 class="title reveal" style="--d:.06s;margin-top:22px;">18 年的 UX 實踐旅程</h1>
+    <h1 class="title reveal" style="--d:.06s;margin-top:22px;">Albert Wang：18 年的 UX 實踐旅程</h1>
     <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:54px;">
       <div class="hcard reveal" style="--d:.12s;display:flex;flex-direction:column;">
         <div class="j-logo" data-mono="in" style="--mc:#0A66C2"><img onerror="var t=this.closest('.j-logo');t.classList.add('noimg');this.style.display='none'" src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" alt="" referrerpolicy="no-referrer"></div>
@@ -424,24 +508,28 @@ deck-stage::part(stage){background:#0a0a0c;}
         <div class="ag-title">就業市場的斷裂</div>
         <div class="ag-en">The Employment Fracture</div>
         <div class="ag-desc">專才滅絕、交接時代終結、PM 成為聚合核心。</div>
+        <div class="ag-art"><svg viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></div>
       </a>
       <a class="agenda-card reveal" style="--d:.2s" data-go="8">
         <div class="ag-no">02</div>
         <div class="ag-title">產品打造者框架</div>
         <div class="ag-en">Product Builder Framework</div>
         <div class="ag-desc">四大支柱：研究、洞察、氛圍設計、評估。</div>
+        <div class="ag-art"><svg viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/></svg></div>
       </a>
-      <a class="agenda-card reveal" style="--d:.28s" data-go="16">
+      <a class="agenda-card reveal" style="--d:.28s" data-go="19">
         <div class="ag-no">03</div>
         <div class="ag-title">角色轉型</div>
         <div class="ag-en">Role Transformation</div>
         <div class="ag-desc">專才如何升級為打造者，以及升級的硬傷。</div>
+        <div class="ag-art"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg></div>
       </a>
-      <a class="agenda-card reveal" style="--d:.36s" data-go="19">
+      <a class="agenda-card reveal" style="--d:.36s" data-go="22">
         <div class="ag-no">04</div>
         <div class="ag-title">AI 末日啟示錄</div>
         <div class="ag-en">AI Apocalyptics</div>
         <div class="ag-desc">40% 失業斷崖、兩種劇本、與生存策略。</div>
+        <div class="ag-art"><svg viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
       </a>
     </div>
     <div class="slide-no">03</div>
@@ -698,7 +786,115 @@ deck-stage::part(stage){background:#0a0a0c;}
     <div class="slide-no">13</div>
   </section>
 
-  <!-- 14 · 支柱三 90/10 護城河 -->
+  <!-- 14 · 支柱二 開發心法 A · 擁抱錯誤 -->
+  <section class="slide" data-label="Embrace Error">
+    <p class="eyebrow reveal">支柱二 · 開發心法 — Embrace the Error</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:16px;font-size:50px;">擁抱錯誤：AI 時代的「快速修復」思維</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:24px;margin:12px 0 0;">不要害怕卡住——讓 AI 診斷它自己產生的錯誤。這是一個快速反饋的修復迴圈。</p>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:8px;">
+      <div class="flow reveal" style="--d:.16s;">
+        <div class="flow-step">
+          <div class="fs-top">
+            <span class="icon-tile"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="m8.7 8.7 4.6 4.6"/><path d="m13.3 8.7-4.6 4.6"/></svg></span>
+            <span class="fs-num">01</span>
+          </div>
+          <p class="p2-name">無需深究原因</p>
+          <p class="p2-en">No Manual Debug</p>
+          <p class="p2-desc">當 Deployment 失敗或預覽網頁報錯時，不要浪費時間手動 Debug 或查源碼。</p>
+        </div>
+        <div class="flow-conn"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+        <div class="flow-step">
+          <div class="fs-top">
+            <span class="icon-tile"><svg viewBox="0 0 24 24"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></span>
+            <span class="fs-num">02</span>
+          </div>
+          <p class="p2-name">直接反饋</p>
+          <p class="p2-en">Direct Feedback</p>
+          <p class="p2-desc">將 <b style="color:var(--fg);">Error Code</b> 原封不動貼回給 AI Agent，讓它進行自我修正。</p>
+        </div>
+        <div class="flow-conn"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+        <div class="flow-step">
+          <div class="fs-top">
+            <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+            <span class="fs-num">03</span>
+          </div>
+          <p class="p2-name">保持開發動能</p>
+          <p class="p2-en">Vibe Continuity</p>
+          <p class="p2-desc">專注於「功能實現」，將底層邏輯的糾錯權交還給 AI，確保開發節奏不中斷。</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-no">14</div>
+  </section>
+
+  <!-- 15 · 支柱二 開發心法 B · 借力使力 -->
+  <section class="slide warm" data-label="Stand on Giants">
+    <p class="eyebrow reveal">支柱二 · 開發心法 — Stand on Giants</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:16px;font-size:50px;">借力使力：拒絕「從零開始」的低效開發</h1>
+    <div style="flex:1;display:grid;grid-template-columns:0.92fr 1.08fr;gap:40px;margin-top:24px;align-items:stretch;">
+      <div class="feature-panel reveal" style="--d:.16s;">
+        <span class="icon-tile lg" style="background:color-mix(in oklab,var(--accent) 22%,transparent);color:var(--accent);"><svg viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.57 3.9a2 2 0 0 0 1.66 0l8.57-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.5-9.17 4.17a2 2 0 0 1-1.66 0L2 12.5"/><path d="m22 17.5-9.17 4.17a2 2 0 0 1-1.66 0L2 17.5"/></svg></span>
+        <div>
+          <div style="font-size:42px;font-weight:900;letter-spacing:-.02em;line-height:1.2;margin-top:28px;">站在巨人的<br>肩膀上</div>
+          <p style="font-size:23px;line-height:1.5;color:var(--d-fg-muted);margin:18px 0 0;">善用既有代碼庫與 GitHub，在成熟的基礎上疊加，而不是每次都白手起家。</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:20px;">
+        <div class="irow reveal" style="--d:.26s;">
+          <span class="ir-no">01</span>
+          <span class="icon-tile"><svg viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+          <div><p class="p2-name" style="font-size:30px;">注入 Context</p><p class="p2-en" style="margin:4px 0 8px;">Inject Context</p><p class="p2-desc" style="font-size:21px;">讓 AI 讀取公司內部的 <b style="color:var(--fg);">GitHub Codebase</b>，確保生成的代碼符合現有應用機制。</p></div>
+        </div>
+        <div class="irow reveal" style="--d:.34s;">
+          <span class="ir-no">02</span>
+          <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+          <div><p class="p2-name" style="font-size:30px;">模組化思維</p><p class="p2-en" style="margin:4px 0 8px;">Modular Mindset</p><p class="p2-desc" style="font-size:21px;">優先尋找現有的 <b style="color:var(--fg);">Open Source Library</b>（如 TTS、編輯器、索引工具），在成熟基礎上進行修正。</p></div>
+        </div>
+        <div class="irow reveal" style="--d:.42s;">
+          <span class="ir-no">03</span>
+          <span class="icon-tile"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+          <div><p class="p2-name" style="font-size:30px;">三贏策略</p><p class="p2-en" style="margin:4px 0 8px;">Triple Win</p><p class="p2-desc" style="font-size:21px;">利用既有框架能<b style="color:var(--fg);">節省 Token</b>、<b style="color:var(--fg);">提升成功率</b>並<b style="color:var(--fg);">大幅縮短演算等待時間</b>。</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-no">15</div>
+  </section>
+
+  <!-- 16 · 支柱二 開發心法 C · 多緒作業 -->
+  <section class="slide" data-label="Parallel Commander">
+    <p class="eyebrow reveal">支柱二 · 開發心法 — Parallel Commander</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:16px;font-size:50px;">多緒作業：成為「並行演算」的指揮官</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:24px;margin:12px 0 0;">多機並行，加上大腦的「Context Switching」訓練。三條軌道同時推進。</p>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;margin-top:8px;">
+      <div class="lane reveal" style="--d:.18s;">
+        <span class="icon-tile"><svg viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+        <div class="lane-body">
+          <div class="lane-head"><span class="lane-tag">01</span><p class="p2-name">工廠式的流水線排程</p><span class="p2-en" style="margin:0;">Pipelined Compute</span></div>
+          <p class="p2-desc" style="margin-top:10px;max-width:1180px;">不要空等 AI 演算。同時開啟 <b style="color:var(--fg);">3 個 Agent 實例</b>，當 Agent A 在跑計劃 1 時，同步交替操作計劃 2 與 3。</p>
+        </div>
+        <div class="lane-track"></div>
+      </div>
+      <div class="lane reveal" style="--d:.28s;">
+        <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg></span>
+        <div class="lane-body">
+          <div class="lane-head"><span class="lane-tag">02</span><p class="p2-name">切換技能</p><span class="p2-en" style="margin:0;">Context Switching</span></div>
+          <p class="p2-desc" style="margin-top:10px;max-width:1180px;">訓練自己在 3–4 個不同計劃之間快速切換思考。這雖然耗腦，卻是<b style="color:var(--fg);">最大化產出</b>的核心技術。</p>
+        </div>
+        <div class="lane-track"></div>
+      </div>
+      <div class="lane reveal" style="--d:.38s;">
+        <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></span>
+        <div class="lane-body">
+          <div class="lane-head"><span class="lane-tag">03</span><p class="p2-name">先餵 Documentation 再說</p><span class="p2-en" style="margin:0;">Doc-Driven Integration</span></div>
+          <p class="p2-desc" style="margin-top:10px;max-width:1180px;">將看不懂的技術文檔直接餵給 AI，讓它代替你處理複雜的 API 集成、環境配置 (Setup) 與自動化部署。</p>
+        </div>
+        <div class="lane-track"></div>
+      </div>
+    </div>
+    <div class="slide-no">16</div>
+  </section>
+
+  <!-- 17 · 支柱三 90/10 護城河 -->
   <section class="slide warm" data-label="90/10 Moat">
     <p class="eyebrow reveal">支柱三 · 創新護城河 — Anti AI Slop</p>
     <h1 class="title reveal" style="--d:.06s;margin-top:18px;">90 / 10 法則：護城河在那 10%</h1>
@@ -730,7 +926,7 @@ deck-stage::part(stage){background:#0a0a0c;}
         <p style="font-size:23px;line-height:1.5;margin:0;color:var(--fg-muted);">介面不再是預先設計好的靜態排版，而是根據使用者當下意圖即時組裝的動態元件。設計師的角色，轉為<b style="color:var(--fg);">「設計 UI 工具箱」</b>，供 AI Agent 在互動時精確 function calling。</p>
       </div>
     </div>
-    <div class="slide-no">14</div>
+    <div class="slide-no">17</div>
   </section>
 
   <!-- 15 · 支柱四 三維聯防 -->
@@ -758,43 +954,53 @@ deck-stage::part(stage){background:#0a0a0c;}
         <p style="font-size:22px;line-height:1.5;color:var(--fg-muted);margin:0;">限制 <b style="color:var(--fg);">Max Steps</b>、<b style="color:var(--fg);">Token Budget</b> 與超時，在 CI/CD 中阻斷成本或延遲失控的路徑。</p>
       </div>
     </div>
-    <div class="slide-no">15</div>
+    <div class="slide-no">18</div>
   </section>
 
-  <!-- 16 · GPA 框架 + 溫針 -->
-  <section class="slide" data-label="GPA Framework">
-    <p class="eyebrow reveal">支柱四 · 雪花實驗室 — The GPA Framework</p>
-    <h1 class="title reveal" style="--d:.06s;margin-top:18px;">Goal · Plan · Action：拆解 Agent 的每一步</h1>
-    <p class="reveal muted" style="--d:.1s;font-size:22px;margin:12px 0 0;">範例情境 · 客服退款 Agent：使用者說「我上週買的耳機還沒到貨，我要退款。」</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:28px;">
-      <div class="reveal" style="--d:.18s;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 32px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
-        <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">G</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Goal · 目標</span></div>
-        <p style="font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Answer Correctness &amp; Relevance</b>——最終回答是否契合使用者意圖、具事實正確性，並由檢索資料支持 (Groundedness)。</p>
-        <div style="margin-top:auto;padding-top:18px;">
-          <div class="ex-label">實際範例</div>
-          <p class="ex-body">回覆「訂單 <span class="ex-code">#4821</span> 已退款 <b style="color:var(--fg);">NT$1,890</b>，3–5 個工作日退回原卡」——金額正確、貼合意圖，且有訂單記錄佐證。</p>
+  <!-- 16 · 支柱四 三維聯防 (duplicate of 15) -->
+  <section class="slide" data-label="Evaluation Mindset">
+    <p class="eyebrow reveal">支柱四 · 評估心法 — The Evaluation Mindset</p>
+    <h1 class="title reveal" style="--d:.06s;margin-top:16px;font-size:50px;">評估的本質：從理解使用者，到讓 AI 評斷 AI</h1>
+    <p class="reveal muted" style="--d:.1s;font-size:24px;margin:12px 0 0;">好的評估，是一條從研究、模擬、判斷到規模化的完整鏈條。</p>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:8px;">
+      <div class="journey reveal" style="--d:.16s;">
+        <div class="j-rail"></div>
+        <div class="jstep">
+          <div class="jnode"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="j-body">
+            <div class="j-tag">Stage 01 · 理解</div>
+            <p class="j-title">理解使用者</p>
+            <p class="j-desc">評估始於對使用者的理解。透過<b>質化與量化研究</b>，先清楚定義：什麼是「好體驗」，什麼是「壞體驗」。</p>
+          </div>
         </div>
-      </div>
-      <div class="reveal" style="--d:.28s;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 32px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
-        <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">P</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Plan · 規劃</span></div>
-        <p style="font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Quality &amp; Tool Selection</b>——Agent 是否設計出合理的 Roadmap，並精確進行工具選擇。</p>
-        <div style="margin-top:auto;padding-top:18px;">
-          <div class="ex-label">實際範例</div>
-          <p class="ex-body">規劃 4 步並選對工具：<span class="ex-code">lookup_order</span> → <span class="ex-code">check_refund_policy</span> → <span class="ex-code">issue_refund</span> → <span class="ex-code">send_email</span>。</p>
+        <div class="jstep">
+          <div class="jnode"><svg viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg></div>
+          <div class="j-body">
+            <div class="j-tag">Stage 02 · 模擬</div>
+            <p class="j-title">模擬體驗</p>
+            <p class="j-desc">原型階段不只做靜態設計——要能<b>模擬真實體驗</b>：模擬對話中的智能、模擬各種資料事件，甚至模擬當機與危機如何發生。</p>
+          </div>
         </div>
-      </div>
-      <div class="reveal" style="--d:.38s;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 32px;box-shadow:var(--nz-shadow-surface,0 1px 2px rgba(0,0,0,.05));">
-        <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:52px;font-weight:900;color:var(--accent);letter-spacing:-.02em;">A</span><span style="font-size:30px;font-weight:800;white-space:nowrap;">Action · 行動</span></div>
-        <p style="font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--fg-muted);"><b style="color:var(--fg);">Plan Adherence &amp; Tool Calling</b>——是否確實執行步驟、參數正確，無死循環、未授權調用或幻覺外部服務。</p>
-        <div style="margin-top:auto;padding-top:18px;">
-          <div class="ex-label">實際範例</div>
-          <p class="ex-body">執行 <span class="ex-code">issue_refund(id="#4821", amt=1890)</span>，參數正確、僅退款一次，未越權讀取付款資料。</p>
+        <div class="jstep">
+          <div class="jnode"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div class="j-body">
+            <div class="j-tag">Stage 03 · 評斷</div>
+            <p class="j-title">建立評斷觀點</p>
+            <p class="j-desc">面對 AI 生成的結果，你必須握有明確的觀點——分辨得出哪些是壞體驗、哪些是好體驗，這就是評估的 <b>Ground Truth</b>。</p>
+          </div>
+        </div>
+        <div class="jstep key">
+          <div class="jnode"><svg viewBox="0 0 24 24"><path d="m14.5 12.5-8 8a2.119 2.119 0 1 1-3-3l8-8"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/><path d="m9 7 8 8"/><path d="m21 11-8-8"/></svg></div>
+          <div class="j-body">
+            <div class="j-tag">Stage 04 · 規模化</div>
+            <p class="j-title">讓 AI 評斷 AI</p>
+            <p class="j-desc">人工抽查 <b>(Spot Check)</b> 永遠無法規模化。Agent 會產出成千上萬種回應，你不可能逐一檢查。解法：打造專責評估的 Agent，把好壞原則內化其中——即 <b>LLM-as-a-Judge</b>。</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="slide-no">16</div>
+    <div class="slide-no">19</div>
   </section>
-
   <!-- 17 · UNIT 3 DIVIDER -->
   <section class="slide warm" data-label="Unit 3" data-screen-label="Unit 3">
     <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
@@ -835,7 +1041,7 @@ deck-stage::part(stage){background:#0a0a0c;}
         <p style="font-size:23px;line-height:1.5;color:var(--fg-muted);margin:14px 0 0;">負責複雜架構審查、效能調校、安全漏洞掃描，為 AI 程式碼建立<b style="color:var(--fg);">免疫系統</b>。</p>
       </div>
     </div>
-    <div class="slide-no">18</div>
+    <div class="slide-no">21</div>
   </section>
 
   <!-- 19 · 升級硬傷 -->
@@ -860,7 +1066,7 @@ deck-stage::part(stage){background:#0a0a0c;}
         <p class="r-d" style="align-self:center;">產品不是「能動」就好了——去了解產品<b style="color:var(--fg);">為什麼會失敗</b>。</p>
       </div>
     </div>
-    <div class="slide-no">19</div>
+    <div class="slide-no">22</div>
   </section>
 
   <!-- 20 · UNIT 4 DIVIDER -->
@@ -902,7 +1108,7 @@ deck-stage::part(stage){background:#0a0a0c;}
         </div>
       </div>
     </div>
-    <div class="slide-no">21</div>
+    <div class="slide-no">24</div>
   </section>
 
   <!-- 22 · 瓦力 vs 極樂世界 -->
@@ -931,7 +1137,7 @@ deck-stage::part(stage){background:#0a0a0c;}
       <div style="font-size:24px;font-weight:900;color:var(--accent);white-space:nowrap;">2026 — 2030</div>
       <p style="font-size:24px;line-height:1.45;margin:0;">關鍵決擇窗口將徹底決定文明走向，核心只有一個問題：<b>AI Agent，控制在誰的手中？</b></p>
     </div>
-    <div class="slide-no">22</div>
+    <div class="slide-no">25</div>
   </section>
 
   <!-- 23 · 如何在非人世界中生存 -->
@@ -958,7 +1164,7 @@ deck-stage::part(stage){background:#0a0a0c;}
         <p style="font-size:22px;line-height:1.5;color:var(--d-fg-muted);margin:16px 0 0;">在設計中刻意保留意圖性的「物理質感」與摩擦力，拒絕被<b style="color:var(--d-fg);">完全無縫的機器便利</b>同化。</p>
       </div>
     </div>
-    <div class="slide-no">23</div>
+    <div class="slide-no">26</div>
   </section>
 
   <!-- 24 · QUOTE -->
@@ -985,7 +1191,7 @@ deck-stage::part(stage){background:#0a0a0c;}
       <image-slot id="closing-avatar" style="width:72px;height:72px" shape="circle" placeholder="頭像"></image-slot>
       <div>
         <div style="font-size:24px;font-weight:700;">Albert Wang</div>
-        <div style="font-size:20px;color:var(--d-fg-muted);">Ai Product Builder · LinkedIn</div>
+        <div style="font-size:20px;color:var(--d-fg-muted);">Ai Product Builder · LinkedIn: albertdesign | Thread: albertyuw</div>
       </div>
       <div style="margin-left:auto;font-size:22px;color:var(--d-fg-muted);white-space:nowrap;">謝謝聆聽 · Thank you</div>
     </div>
@@ -1008,9 +1214,12 @@ deck-stage::part(stage){background:#0a0a0c;}
 "支柱一的後半，是量化洞察。如果說質化是問「為什麼」，量化就是用數據精準探勘那個為什麼。Fullstory 免埋點，自動抓「憤怒點擊」「無效點擊」這些挫折訊號。Pendo 讓你用白話文問漏斗。Mixpanel 最關鍵——它首創了 MCP 伺服器，讓 Cursor 或 Claude 這種 agent 直接呼叫產品分析資料。Amplitude 則把分析直接串到 A/B 測試，形成閉環。重點是：資料分析不再是一份報告，而是能直接驅動決策的即時對話。",
 "支柱二，氛圍設計。Karpathy 講過一句話：開發者不再手動寫每一行程式碼，而是透過高層次的「意圖引導」讓 AI 實作。我們設計師也一樣，正在從「調整像素」轉向「氛圍設計」——你引導一個內建了設計系統、無障礙規範、使用者情境的 AI Agent，直接生成 UI。而且產出的，就是可以直接上線的前端程式碼。畫布跟真實瀏覽器之間的那道鴻溝，消失了。",
 "接下來這張，是我自己花最多時間實測的。2026 年主流的氛圍設計工具，我把它們一張張翻面，比較優缺點。簡單講：要快速驗證設計，看 Lovable 跟 Google Stitch；要真的上線、要後端，看 Replit Agent 跟 Vercel v0；要保留對架構的極致控制，看 Cursor；而如果你想讓產出繼承你既有的品牌設計系統、徹底擺脫 generic AI 美學，2026 最強的黑馬是 Claude Design。大家可以滑過每張卡，背面是它們各自的痛點。沒有一個工具是萬能的，重點是知道什麼場景用什麼。",
+"工具講完，接著是三個實戰心法，這也是支柱二的延伸。第一個：擁抱錯誤。在 AI 時代，卡住不可怕。當 deployment 失敗、預覽網頁報錯，千萬不要一頭栽進去手動 debug、翻源碼——那是舊時代的反射動作。正確做法是把整段 error code 原封不動貼回給 AI agent，讓它自己診斷、自己修。你要守住的是開發的「動能」：專注在功能實現上，把底層邏輯的糾錯權交還給 AI，節奏才不會斷。",
+"第二個心法：借力使力，拒絕從零開始。最低效的開發，就是每次都白手起家。三個動作：一，注入 context——讓 AI 讀公司內部的 GitHub codebase，產出的代碼才會符合你現有的架構跟慣例。二，模組化思維——能用現成的 open source library 就別自己造輪子，TTS、編輯器、索引工具都有成熟方案，在它上面改就好。這是個三贏：省 token、提升成功率、還大幅縮短你等 AI 演算的時間。站在巨人的肩膀上，永遠比平地起跑快。",
+"第三個心法，也是最進階的：多緒作業，當一個並行演算的指揮官。AI 在跑的時候不要乾等。我自己會同時開三個 agent 實例：A 在跑計劃一，我就同步去操作計劃二、計劃三，像流水線一樣。關鍵能力是 context switching——訓練自己在三到四個計劃之間快速切換思考，這很耗腦，但它就是最大化產出的核心技術。還有一招：看不懂的技術文檔，直接餵給 AI，讓它替你處理複雜的 API 集成、環境配置跟自動化部署。你負責指揮，AI 負責執行。",
 "支柱三，是我認為最重要的——創新的護城河。我叫它九十比十法則。百分之九十的常用型 UI，表單、清單、設定頁，交給 AI 去編譯生成，不要再消耗你的心力。但剩下那百分之十——我稱為 magical experience——你要把百分之百的手動精力，全部灌注在這裡。這是 AI 複製不來的產品靈魂，是你的護城河。延伸下去就是 generative UI：介面不再是預先排好的靜態版面，而是根據使用者當下意圖即時組裝的。設計師的角色，變成設計一個「UI 工具箱」，供 AI 在互動時精準呼叫。",
 "支柱四，Agent 評估。這是大家最容易忽略、卻最致命的一塊。AI Agent 是非確定性系統，你檢查它「一次」答對了，沒有意義，你要量測的是它的「系統行為」。我推薦三維聯防：研究員建「黃金與白銀資料集」，由領域專家定義真實痛點跟惡意輸入，當作 ground truth；設計師主導「主觀感受量表」，定義清晰度、幫助性、語調這些體驗指標；PM 定義「運行限制邊界」，限制最大步數、token 預算跟超時，在 CI/CD 裡擋掉那些品質達標但成本失控的路徑。三個角色，三個維度，缺一不可。",
-"再給大家一個更細的框架，來自雪花實驗室，叫 GPA。Goal——最終答案對不對、跟使用者意圖契不契合、有沒有資料支撐。Plan——Agent 有沒有規劃出合理的路線、有沒有選對工具。Action——它有沒有真的照做、參數對不對、有沒有死循環或幻覺。最後我想用一個比喻收尾：這就像溫針測肉，不要盲目迷信七十三度的過熟安全溫度，而是用評估迴圈，精準抓到五十五到六十五度那個又殺菌又鮮嫩的完美平衡。還有一句忠告：別過度依賴 LLM 當裁判，它只能做快速的 pattern 偵測，最終決策還是人來扛。",
+"這一頁我想把評估的「本質」講清楚——它不是最後才做的測試，而是一條完整的鏈條。第一站，理解使用者：評估的標準從哪來？來自你的質化跟量化研究，你要先說得出什麼是好體驗、什麼是壞體驗。第二站，模擬體驗：在原型階段就不能只做靜態設計，你要能模擬真實情境——模擬對話裡的智能、模擬各種資料事件，甚至模擬一次當機、一場危機怎麼發生。第三站，建立評斷觀點：面對 AI 吐出來的結果，你心裡要有一把尺，分得出好壞，這把尺就是 Ground Truth。最後一站，也是關鍵：人工抽查永遠無法規模化。一個 agent 會產生成千上萬種回應，你不可能一條條看。所以真正的解法，是打造一個專責評估的 agent，把「什麼是好、什麼是壞」的原則內化進去，讓 AI 來評斷 AI——這就是 LLM-as-a-Judge。",
 "第三單元，角色轉型。前面講了框架，這一段我想直接面對在座的每一位——不管你現在是研究員、設計師、PM、還是工程師，你該怎麼變。",
 "先講好消息：你的超能力還在，只是要換個用法。研究員，升級成「真實資料治理者」，你的價值是稽核資料、防止模型崩塌，去找 AI 平均值會遺漏的那些「人類摩擦力」。設計師，升級成「DNA 架構師」，你定義產品的底層行為邏輯跟品牌美學核心，把人類情感嵌進系統。PM，升級成「誘因設計師」，不再交付功能，而是衡量系統性的影響力，擋下無意義的 AI 廢料。前端，升級成「可靠性層級」，你是 AI 程式碼的免疫系統。內核沒變，舞台變大了。",
 "但升級從來不是免費的，每個角色都有自己要跨的那道坎。研究員，不要害怕執行——去碰 vibe coding、terminal、jira，從一個提建議的人，變成真正 own 產品的人。設計師，天塌下來要扛——直接面對客戶跟市場，放棄完美主義，從 user center 轉向 impact center。PM，要補上科學化研究跟美感品味，看到醜的、難用的體驗，你要抓得出來，還要知道用什麼 prompt 改。前端，要補的是 user empathy——產品不是能動就好，你要去理解它為什麼會失敗。",
